@@ -6,7 +6,7 @@
 #    By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/11 00:03:30 by agrumbac          #+#    #+#              #
-#    Updated: 2017/03/09 12:38:13 by agrumbac         ###   ########.fr        #
+#    Updated: 2017/03/09 13:28:44 by agrumbac         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,23 +26,19 @@ Y = "\033[33m"
 R = "\033[31m"
 G = "\033[32m"
 B = "\033[34m"
-W = "\033[34;1m"
 X = "\033[0m"
 UP = "\033[A"
 CUT = "\033[K"
 
 all: ${NAME}
 
-panic:
-	@echo ${W}"DON'T PANIC"${X}
-
-${NAME}: panic ${OBJ}
+${NAME}: ${OBJ}
 	@make -C libft/
-	@${CC} ${CFLAGS} -I./libft/includes/ -Llibft/ -lft -I. -o $@ ${OBJ}
 	@echo ${B}Compiling [${NAME}]...${X}
+	@${CC} ${CFLAGS} -I./libft/includes/ -Llibft/ -lft -I. -o $@ ${OBJ}
 	@echo ${G}Success"   "[${NAME}]${X}
 
-${OBJDIR}/%.o : ./srcs/%.c
+${OBJDIR}/%.o : ./srcs/%.c lem_in.h
 	@echo ${UP}${CUT}${Y}Compiling [$@]...${X}
 	@/bin/mkdir -p ${OBJDIR}
 	@${CC} ${CFLAGS} -I./libft/includes/ -I. -c -o $@ $<
@@ -64,6 +60,6 @@ test:
 
 re: fclean all
 
-build: panic ${OBJ}
+build: ${OBJ}
 
 .PHONY: all clean fclean re test panic build
