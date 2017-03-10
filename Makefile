@@ -6,7 +6,7 @@
 #    By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/11 00:03:30 by agrumbac          #+#    #+#              #
-#    Updated: 2017/03/09 13:28:44 by agrumbac         ###   ########.fr        #
+#    Updated: 2017/03/11 00:48:01 by agrumbac         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,8 @@ SRC = lem_in.c
 OBJDIR = objs
 
 CFLAGS = -Wall -Wextra -Werror
+
+DEP = lem_in.h libft/includes/libft.h libft/includes/ft_printf.h
 
 CC = gcc
 
@@ -31,17 +33,18 @@ UP = "\033[A"
 CUT = "\033[K"
 
 all: ${NAME}
+	@echo ${G}Success"   "[${NAME}]${X}
 
 ${NAME}: ${OBJ}
 	@make -C libft/
 	@echo ${B}Compiling [${NAME}]...${X}
 	@${CC} ${CFLAGS} -I./libft/includes/ -Llibft/ -lft -I. -o $@ ${OBJ}
-	@echo ${G}Success"   "[${NAME}]${X}
 
-${OBJDIR}/%.o : ./srcs/%.c lem_in.h
-	@echo ${UP}${CUT}${Y}Compiling [$@]...${X}
+${OBJDIR}/%.o : ./srcs/%.c ${DEP}
+	@echo ${Y}Compiling [$@]...${X}
 	@/bin/mkdir -p ${OBJDIR}
 	@${CC} ${CFLAGS} -I./libft/includes/ -I. -c -o $@ $<
+	@printf ${UP}${CUT}
 
 clean:
 	@echo ${R}Cleaning"  "[libft objs]...${X}
