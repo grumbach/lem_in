@@ -6,7 +6,7 @@
 #    By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/11 00:03:30 by agrumbac          #+#    #+#              #
-#    Updated: 2017/03/11 06:04:11 by agrumbac         ###   ########.fr        #
+#    Updated: 2017/03/11 09:35:34 by agrumbac         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,9 +26,9 @@ DEP = lem_in.h libft/includes/libft.h libft/includes/ft_printf.h
 
 CC = gcc
 
-OBJ = $(addprefix ${OBJDIR}/, $(SEE_SRC:.c=.o))
+OBJ = $(addprefix ${OBJDIR}/, $(SRC:.c=.o))
 
-SEE_OBJ = $(addprefix ${OBJDIR}/, $(SRC:.c=.o))
+SEE_OBJ = $(addprefix ${OBJDIR}/, $(SEE_SRC:.c=.o))
 
 MLX = minilibx_macos/
 
