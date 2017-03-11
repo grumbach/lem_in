@@ -6,7 +6,7 @@
 #    By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/11 00:03:30 by agrumbac          #+#    #+#              #
-#    Updated: 2017/03/11 09:35:34 by agrumbac         ###   ########.fr        #
+#    Updated: 2017/03/11 14:21:13 by agrumbac         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = lem-in
 
 SEE_NAME = see-ants
 
-SRC = lem_in.c
+SRC = lem_in.c lem_in_parse.c
 
 SEE_SRC = lem_in_viewer.c
 

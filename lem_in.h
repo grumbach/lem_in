@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:31:15 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/11 12:02:40 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/11 16:03:31 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,6 @@ typedef struct		s_lem
 }					t_lem;
 
 long				errors(const int err, const char *name);
+void				lem_parser(t_array *parse, t_lemsize *size);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:30:27 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/11 12:01:42 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/11 14:02:46 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void	lem_rooms_links(t_array *parse, int *ants_rooms_links, \
 		lem_links(parse, size, i);
 }
 
-static void	lem_parser(t_array *parse, t_lemsize *size)
+static void	lem_reader(t_array *parse, t_lemsize *size)
 {
 	int			i;
 	int			ants_rooms_links;
@@ -120,6 +120,7 @@ int			main(void)
 		ft_arraydel(&parse);
 		errors(0, 0);
 	}
+	lem_reader(parse, &size);
 	lem_parser(parse, &size);
 	ft_arraydel(&parse);
 	return (0);
