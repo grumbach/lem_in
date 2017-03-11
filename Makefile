@@ -6,7 +6,7 @@
 #    By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/11 00:03:30 by agrumbac          #+#    #+#              #
-#    Updated: 2017/03/11 14:21:13 by agrumbac         ###   ########.fr        #
+#    Updated: 2017/03/11 18:06:50 by agrumbac         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,25 +82,25 @@ fclean: clean
 	@/bin/rm -f ${SEE_NAME}
 
 test:
-	@${CC} -I./libft/includes/ -fsanitize=address -Llibft/ -lft -I. -o ${NAME} \
-	$(addprefix srcs/, ${SRC})
+	@${CC} -g -I./libft/includes/ -fsanitize=address -Llibft/ -lft \
+	-I. -o ${NAME} $(addprefix srcs/, ${SRC})
 
 ant:
 	@echo ${W}
-	@echo "             ,"
-	@echo "    _,-'\\   /|   .    .    /\`."
-	@echo "_,-'     \\_/_|_  |\   |\`. /   \`._,--===--.__"
-	@echo "^      _/\"/  \" \ : \__|_ /.  ,'   :.  :. .  \`-._"
-	@echo "     "${WR}"//"${W}" ^   "${WR}"/7"${W}" t'\"\"    \"\`-._/ ,'\   :   :  :  . \`."
-	@echo "     "${WR}"Y"${W}"      "${WR}"L/"${W}" )\         ]],'   \  :   :  :   :  \`."
-	@echo "     |        /  \`.n_n_n,','\_    \ ;   ;  ;   ;   _>"
-	@echo "     |__    ,'     |  \\\`-'    \`-.__\_______.==---'"
-	@echo "     //  \`\"\"\\      |   \\            \\"
-	@echo "    \|     |/      /    \            \\"
-	@echo "	          /     |             \`."
-	@echo "	         /      |               ^"
-	@echo "	        ^       |"
-	@echo "                        ^"
+	@echo "              ,"
+	@echo "     _,-'\\   /|   .    .    /\`."
+	@echo " _,-'     \\_/_|_  |\   |\`. /   \`._,--===--.__"
+	@echo "^       _/\"/  \" \ : \__|_ /.  ,'   :.  :. .  \`-._"
+	@echo "      "${WR}"//"${W}"  ^ "${WR}"/7"${W}"  t'\"\"    \"\`-._/ ,'\   :   :  :  . \`."
+	@echo "      "${WR}"Y"${W}"     "${WR}"L/"${W}"  )\         ]],'   \  :   :  :   :  \`."
+	@echo "      |        /  \`.n_n_n,','\_    \ ;   ;  ;   ;   _>"
+	@echo "      |__    ,'     |  \\\`-'    \`-.__\_______.==---'"
+	@echo "      //  \`\"\"\\      |   \\            \\"
+	@echo "     \|     |/      /    \            \\"
+	@echo "	           /     |             \`."
+	@echo "	          /      |               ^"
+	@echo "	         ^       |"
+	@echo "                         ^"
 	@echo ${X}
 
 re: fclean all

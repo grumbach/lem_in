@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:30:27 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/11 14:02:46 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/11 18:41:16 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ long		errors(const int err, const char *name)
 		ft_putstr_fd("ERROR\n", 2);
 	else if (err == 2)
 		ft_putstr_fd("Invalid format\n", 2);
+	else if (err == 4)
+		ft_putstr_fd("Jackass detected...\n", 2);
 	exit(1);
 	return (0);
 }
@@ -77,7 +79,6 @@ static void	lem_reader(t_array *parse, t_lemsize *size)
 
 	ants_rooms_links = 0;
 	i = 0;
-	ft_printf("%s", LEM);
 	while (LEM[i])
 	{
 		if (LEM[i] == '\n')
@@ -120,6 +121,8 @@ int			main(void)
 		ft_arraydel(&parse);
 		errors(0, 0);
 	}
+	if (ft_strlen(parse.content) > 10000)
+		exit(4, 0);
 	lem_reader(parse, &size);
 	lem_parser(parse, &size);
 	ft_arraydel(&parse);
