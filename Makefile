@@ -6,7 +6,7 @@
 #    By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/11 00:03:30 by agrumbac          #+#    #+#              #
-#    Updated: 2017/03/11 04:58:04 by agrumbac         ###   ########.fr        #
+#    Updated: 2017/03/11 06:04:11 by agrumbac         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ DEP = lem_in.h libft/includes/libft.h libft/includes/ft_printf.h
 
 CC = gcc
 
-OBJ = $(addprefix ${OBJDIR}/, $(SRC:.c=.o))
+OBJ = $(addprefix ${OBJDIR}/, $(SEE_SRC:.c=.o))
 
 SEE_OBJ = $(addprefix ${OBJDIR}/, $(SRC:.c=.o))
 
@@ -44,30 +44,42 @@ X = "\033[0m"
 UP = "\033[A"
 CUT = "\033[K"
 
-all: ant ${NAME}
+all: ant ${NAME} ${SEE_NAME}
 	@echo ${G}Success"   "[${NAME}]${X}
 
-${NAME}: ${OBJ} ${SEE_OBJ}
+${NAME}: ${OBJ}
 	@make -C libft/
 	@echo ${B}Compiling [${NAME}]...${X}
-	@${CC} ${CFLAGS} -I./libft/includes/ -Llibft/ -lft -I. -o $@ ${OBJ}
+	@${CC} ${CFLAGS} -Ilibft/includes/ -Llibft/ -lft -I. -o $@ ${OBJ}
+
+${SEE_NAME}: ${SEE_OBJ}
+	@echo ${B}Compiling [mlx]...${X}
+	@make -C ${MLX}
+	@echo ${G}Success"   "[mlx]${X}
+	@echo ${B}Compiling [${SEE_NAME}]...${X}
+	@${CC} ${CFLAGS} -Ilibft/includes/ -I. -I${MLX} -Llibft/ -lft \
+		-L${MLX} -lmlx ${FRAMEWORKS} -o $@ ${SEE_OBJ}
 
 ${OBJDIR}/%.o : ./srcs/%.c ${DEP}
 	@echo ${Y}Compiling [$@]...${X}
 	@/bin/mkdir -p ${OBJDIR}
-	@${CC} ${CFLAGS} -I./libft/includes/ -I. -c -o $@ $<
+	@${CC} ${CFLAGS} -Ilibft/includes/ -I. -c -o $@ $<
 	@printf ${UP}${CUT}
 
 clean:
 	@echo ${R}Cleaning"  "[libft objs]...${X}
 	@make -C libft/ clean
+	@echo ${R}Cleaning"  "[mlx]...${X}
+	@make -C ${MLX} clean
 	@echo ${R}Cleaning"  "[objs]...${X}
 	@/bin/rm -Rf ${OBJDIR}
 
 fclean: clean
 	@make -C libft/ fclean
 	@echo ${R}Cleaning"  "[${NAME}]...${X}
-	@/bin/rm -f ${NAME} test
+	@/bin/rm -f ${NAME}
+	@echo ${R}Cleaning"  "[${SEE_NAME}]...${X}
+	@/bin/rm -f ${SEE_NAME}
 
 test:
 	@${CC} -I./libft/includes/ -fsanitize=address -Llibft/ -lft -I. -o ${NAME} \
