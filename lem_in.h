@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:31:15 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/11 06:59:24 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/11 07:02:45 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,5 @@
 # define LEM_IN_H
 
 # include "libft.h"
-# include <fcntl.h>
-# include <unistd.h>
 
 #endif
