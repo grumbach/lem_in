@@ -18,8 +18,9 @@
 # define DOWN		4
 # define UP			8
 
-# define ROOMS		room[ants->max.y][ants->max.x]
-# define LINKS		room[ants->max.y][ants->max.x]->links[ants->max.y][ants->max.x]
+# define ANTS		t_ants	*ants;
+# define ROOMS		t_rooms room[ants->max.y][ants->max.x]
+# define LINKS		int		room[ants->max.y][ants->max.x]->links[ants->max.y][ants->max.x]
 # define NAME		rooms[i.y][i.x]->name
 # define TYPE		rooms[i.y][i.x]->type
 
@@ -81,21 +82,33 @@ typedef struct	s_ants
 }				t_ants;
 
 /*
-** Initialize stack functions
+** Rooms and their links initialization 
 */
 
 void	init_rooms(t_ants *ants, *ROOMS);
 void	init_links(t_ants *ants, t_xy pos, *ROOMS, *LINKS);
 
 /*
-** parsing functions
+** GLOBAL PARSING
 */
 
 void	lem_in_parsing(void);
 int		not_comment(char *line, int *start);
+
+/*
+** parsing new rooms
+*/
+
 void	add_room(t_ants *ants, char *s, t_room room, int type);
 int		check_room_format(t_ants ants, char *s, t_index room[ants->room_nb]);
+
+/*
+** parsing link between rooms
+*/
+
 void 	parse_links(t_ants *ants, char *s);
+int 	check_room_name_and_link(ANTS, ROOMS, LINKS);
+int 	link_to_other_room(t_xy pos, ANTS, ROOMS, LINKS);
 
 /*
 ** misc

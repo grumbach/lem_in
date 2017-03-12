@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 00:56:57 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/12 08:23:01 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/12 08:53:21 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,7 @@ int		not_comment(char *line, int *start)
 ** then add information relative to a new room
 */
 
-int		add_room(t_ants *ants, char *s, int type, *ROOMS)
+int		add_room(ANTS, char *s, int type, *ROOMS)
 {
 	size_t	i;
 	size_t	sp;
@@ -207,18 +207,40 @@ int		add_room(t_ants *ants, char *s, int type, *ROOMS)
 	i = 0;
 	while (s[i] != ' ')
 		++i;
-	ft_strncpy(room->name, s, i);
+	ft_strncpy(ants->tmp_s1, s, i);
 	while (i--)
 		*s++; 
-	room->i.x = ft_atoi(ft_strchr(s, ' ') + 1);
-	room->i.y = ft_atoi(ft_strrchr(s, ' ') + 1);
-	if (*i.x < 0 || *i.y < 0)
+	i.x = ft_atoi(ft_strchr(s, ' ') + 1);
+	i.y = ft_atoi(ft_strrchr(s, ' ') + 1);
+	if (i.x < 0 || i.y < 0)
 		lem_in_error("Error : Wrong format, negative (x, y)", &ants->loop);
-	if (!NAME)
-		NAME = room->name;
+	if (!NAME && !already_contain_name(ants, rooms))
+		NAME = ants->tmp_s1;
 	else
-		lem_in_error("Error : Room already exists)", &ants->loop);
+		lem_in_error("Error : Room already existed", &ants->loop);
 	TYPE = type;
+}
+
+/*
+** make sure that there is no room with the same name already existing
+*/
+
+int		already_contain_name(ANTS, ROOMS)
+{
+	t_xy	i;
+
+	i.y = 0;
+	while (i.y < max.y)
+	{
+		while (i.x < max.x)
+		{
+			if (!ft_strcmp(NAME, ants->tmp_s1))
+				return (0);
+			++i.x;
+		}
+		++i.y;
+	}
+	return (1);
 }
 
 /*
@@ -246,28 +268,67 @@ void 	parse_links(t_ants *ants, char *s)
 	while (s[i] != '-')
 		++i;
 	ants->tmp_s2-> = ft_strncpy(room->name, s, i);
-	check_room_name_and_link(ants, rooms, links);
+	if (!check_room_name_and_link(ants, rooms, links))
+		lem_in_error("Error : Invalid link", &ants->loop);
 }
 
 /*
-** check that room name matches with existing rooms and then link them
+** checks that room name matches with existing rooms and then link them
+** also checks that it not a final room with if (TYPE == 3)
 */
 
-void 	check_room_name_and_link(t_ants *ants, ROOMS, LINKS)
+int 	check_room_name_and_link(ANTS, ROOMS, LINKS)
 {
 	t_xy	i;
 
 	i.y = 0;
-	while (i.y < map.y)
+	while (i.y < max.y)
 	{
-		while (i.x < map.x)
+		while (i.x < max.x)
 		{
-			if (!ft_strcmp(ants->rooms[i.y][i.x]->name, ants->tmp_s1))
-				link_to_other_room(rooms)
+			if (!ft_strcmp(NAME, ants->tmp_s1))
+			{
+				if (TYPE == 3)
+					return (0);
+				else
+					return (link_to_other_room(i, ants, rooms, links));
+			}
 			++i.x;
 		}
 		++i.y;
 	}
+	return (0);
+}
+
+/*
+** checks that room name matches with another existing room and then link them
+** also checks that it not a starting room with if (TYPE == 1)
+*/
+
+int 	link_to_other_room(t_xy pos, ANTS, ROOMS, LINKS)
+{
+	t_xy	i;
+
+	i.y = 0;
+	while (i.y < max.y)
+	{
+		while (i.x < max.x)
+		{
+			if (!ft_strcmp(NAME, ants->tmp_s2))
+			{
+				if (TYPE == 1)
+					return (0);
+				else
+				{
+					room[pos.y][pos.x]->links[i.y][i.x] = 1;
+					return (1);
+				}
+			}
+			++i.x;
+		}
+		++i.y;
+	}
+	return (0);
 }
 
 /*
