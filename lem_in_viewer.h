@@ -1,5 +1,5 @@
-#ifndef LEM_IN__VIEWER.H
-# define LEM_IN_VIEWER.H
+#ifndef LEM_IN_VIEWER_H
+# define LEM_IN_VIEWER_H
 
 # define WIDTH 		1024
 # define HEIGHT		632
@@ -18,13 +18,8 @@
 # define DOWN		4
 # define UP			8
 
-# define ANTS		t_ants	*ants;
-# define ROOMS		t_rooms room[ants->max.y][ants->max.x]
-# define LINKS		int		room[ants->max.y][ants->max.x]->links[ants->max.y][ants->max.x]
-# define NAME		rooms[i.y][i.x]->name
-# define TYPE		rooms[i.y][i.x]->type
-
 # include "libft.h"//
+# include "mlx.h"
 
 typedef struct	s_xy
 {
@@ -58,7 +53,7 @@ typedef struct	s_rooms
 {
 	char		*name;
 	int			type;
-	int			links[ants->max.y][ants->max.x]
+	int			links[ants->max.y][ants->max.x];
 }				t_rooms;
 
 /*
@@ -71,7 +66,7 @@ typedef struct	s_rooms
 
 typedef struct	s_ants
 {
-	t_mlx		mlx;
+	t_mlx		*mlx;
 	int			nb;
 	int			room_nb;
 	int			room_index;
@@ -82,32 +77,37 @@ typedef struct	s_ants
 	t_xy		cell_dim;
 }				t_ants;
 
+# define ANTS		t_ants	*ants
+# define ROOMS		t_rooms rooms[ants->max.y][ants->max.x]
+# define LINKS		int		rooms[ants->max.y][ants->max.x]->links[ants->max.y][ants->max.x]
+# define NAME		rooms[i.y][i.x]->name
+# define TYPE		rooms[i.y][i.x]->type
+
 /*
 ** Rooms and their links initialization 
 */
 
-void	init_rooms(t_ants *ants, *ROOMS);
-void	init_links(t_ants *ants, t_xy pos, *ROOMS, *LINKS);
+void	init_rooms(ANTS, ROOMS);
+void	init_links(ANTS, t_xy pos, ROOMS, *LINKS);
 
 /*
 ** GLOBAL PARSING
 */
 
-void	lem_in_parsing(void);
+void	lem_in_parsing(ANTS);
 int		not_comment(char *line, int *start);
 
 /*
 ** parsing new rooms
 */
 
-void	add_room(t_ants *ants, char *s, t_room room, int type);
-int		check_room_format(t_ants ants, char *s, t_index room[ants->room_nb]);
+void	add_room(ANTS, char *s, int type, t_rooms rooms);
 
 /*
 ** parsing link between rooms
 */
 
-void 	parse_links(t_ants *ants, char *s);
+void 	parse_links(ANTS, char *s);
 int 	check_room_name_and_link(ANTS, ROOMS, LINKS);
 int 	link_to_other_room(t_xy pos, ANTS, ROOMS, LINKS);
 
@@ -121,16 +121,16 @@ void	lem_in_error(char *s, int *loop);
 ** mlx functions
 */
 
-void	hook_exposure(t_ants *ants);
-int		hook(int k, t_ants *ants);
+void	hook_exposure(ANTS);
+int		hook(int k, ANTS);
 int		hook_move(int k, t_ants *e);
 
 /*
 ** drawing functions
 */
 
-int		draw_ants(t_ants *ants);
-void	draw_rooms(ANTS, ROOMS)
+int		draw_ants(ANTS);
+void	draw_rooms(ANTS, ROOMS);
 void	draw_room(t_xy pos, ANTS, ROOMS);
 void	ft_put_pixel(t_mlx *m, int x, int y, int color);
 

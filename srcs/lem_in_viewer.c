@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 00:56:57 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/12 09:25:43 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/12 10:40:10 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,47 +45,6 @@ int	main(void)
 2-3
 */
 
-
-/*
-** fill our rooms names and type with 0 then fill our links with 0
-*/
-
-void	init_rooms(t_ants *ants, *ROOMS)
-{
-	t_xy	i;
-	t_rooms	tmp_links[ants->max.y][ants->max.x];
-
-	rooms->links = &tmp_links; 
-	i.y = 0;
-	while (i.y < max.y)
-	{
-		while (i.x < max.x)
-		{
-			NAME = "\0";
-			TYPE = 0;
-			init_links(ants, i, rooms, rooms->links)
-			++i.x;
-		}
-		++i.y;
-	}
-}
-
-void	init_links(t_ants *ants, t_xy pos, *ROOMS, *LINKS)
-{
-	t_xy	i;
-
-	i.y = 0;
-	while (i.y < max.y)
-	{
-		while (i.x < max.x)
-		{
-			room[pos.y][pos.x]->links[i.y][i.x] = 0;
-			++i.x;
-		}
-		++i.y;
-	}
-}
-
 /*
 ** variable start is to check the position inside the parser
 ** while start = 0 we parse nb is the nb of ants
@@ -94,23 +53,23 @@ void	init_links(t_ants *ants, t_xy pos, *ROOMS, *LINKS)
 ** while start = 5 we parse links
 */
 
-void	lem_in_parsing(t_ants *ants)
+void	lem_in_parsing(ANTS)
 {
 	char	*line;
 	int		start;
-	t_rooms	rooms[ants->max.y][ants->max.x]
+	t_rooms	rooms[ants->max.y][ants->max.x];
 
 	start = 0;
 	ants->loop = 1;
-	init_rooms(ants, &rooms);
-	while (ft_get_next_line(0, &line) > 0 && ants->loop)
+	init_rooms(ants, rooms);
+	while (get_next_line(0, &line) > 0 && ants->loop)
 	{
 		if (not_comment(line, &start))
 		{
 			if (start == 0 && ++start)
 				ants->nb = ft_atoi(line);
 			else if (start < 5)
-				add_room(ants, line, start - 1, &rooms);
+				add_room(ants, line, start - 1, rooms);
 			else if (start > 4)
 				parse_links(ants, line);
 		}
@@ -119,6 +78,45 @@ void	lem_in_parsing(t_ants *ants)
 	}
 }
 
+/*
+** fill our rooms names and type with 0 then fill our links with 0
+*/
+
+void	init_rooms(ANTS, ROOMS)
+{
+	t_xy	i;
+	int		tmp_links[ants->max.y][ants->max.x];
+
+	i.y = 0;
+	while (i.y < ants->max.y)
+	{
+		while (i.x < ants->max.x)
+		{
+			NAME = "\0";
+			TYPE = 0;
+			rooms[i.y][i.x]->links = &tmp_links[i.y][i.x];; 
+			init_links(ants, i, rooms, rooms->links)
+			++i.x;
+		}
+		++i.y;
+	}
+}
+
+void	init_links(t_ants *ants, t_xy pos, ROOMS, *LINKS)
+{
+	t_xy	i;
+
+	i.y = 0;
+	while (i.y < max.y)
+	{
+		while (i.x < max.x)
+		{
+			rooms[pos.y][pos.x]->links[i.y][i.x] = 0;
+			++i.x;
+		}
+		++i.y;
+	}
+}
 
 /*
 ** checks that comment is well formated. if it was the start (start == 2)

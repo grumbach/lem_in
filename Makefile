@@ -6,7 +6,7 @@
 #    By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/11 00:03:30 by agrumbac          #+#    #+#              #
-#    Updated: 2017/03/11 06:04:11 by agrumbac         ###   ########.fr        #
+#    Updated: 2017/03/12 10:13:16 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ OBJDIR = objs
 
 CFLAGS = -Wall -Wextra -Werror
 
-DEP = lem_in.h libft/includes/libft.h libft/includes/ft_printf.h
+DEP = lem_in.h libft/incl/libft.h libft/incl/ft_printf.h
 
 CC = gcc
 
@@ -50,20 +50,20 @@ all: ant ${NAME} ${SEE_NAME}
 ${NAME}: ${OBJ}
 	@make -C libft/
 	@echo ${B}Compiling [${NAME}]...${X}
-	@${CC} ${CFLAGS} -Ilibft/includes/ -Llibft/ -lft -I. -o $@ ${OBJ}
+	@${CC} ${CFLAGS} -Ilibft/incl/ -Llibft/ -lft -I. -o $@ ${OBJ}
 
 ${SEE_NAME}: ${SEE_OBJ}
 	@echo ${B}Compiling [mlx]...${X}
 	@make -C ${MLX}
 	@echo ${G}Success"   "[mlx]${X}
 	@echo ${B}Compiling [${SEE_NAME}]...${X}
-	@${CC} ${CFLAGS} -Ilibft/includes/ -I. -I${MLX} -Llibft/ -lft \
+	@${CC} ${CFLAGS} -Ilibft/incl/ -I. -I${MLX} -Llibft/ -lft \
 		-L${MLX} -lmlx ${FRAMEWORKS} -o $@ ${SEE_OBJ}
 
 ${OBJDIR}/%.o : ./srcs/%.c ${DEP}
 	@echo ${Y}Compiling [$@]...${X}
 	@/bin/mkdir -p ${OBJDIR}
-	@${CC} ${CFLAGS} -Ilibft/includes/ -I. -c -o $@ $<
+	@${CC} ${CFLAGS} -Ilibft/incl/ -I. -c -o $@ $<
 	@printf ${UP}${CUT}
 
 clean:
