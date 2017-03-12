@@ -6,58 +6,11 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 00:56:57 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/12 08:53:21 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/12 09:25:43 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in_viewer.h"
-#include "mlx.h"
-
-
-static int		hook_move(int k, t_env *e)
-{
-	if (k == K_A || k == K_LEFT)
-		e->padding = 0 | LEFT;
-	else if (k == K_D || k == K_RIGHT)
-		e->padding = 0 | RIGHT;
-	else if (k == K_S || k == K_DOWN)
-		e->padding = 0 | DOWN;
-	else if (k == K_W || k == K_UP)
-		e->padding = 0 | UP;
-	return (0);
-}
-
-/*
-** 82 and 29 are 0, to reset. 53 is ESC
-*/
-
-static int		hook(int k, t_env *e)
-{
-	hook_move(k, e);
-	if (k == 82 || k == 29)
-		ft_init(e);
-	if (k == 53)
-		exit(1);
-	return (0);
-}
-
-static int		ants(t_env *e)
-{
-	mlx_destroy_image(e->mlx->mlx, e->mlx->img);
-	e->mlx->img = mlx_new_image(e->mlx->mlx, WIDTH, HEIGHT);
-	move(e);
-	draw(e);
-	mlx_put_image_to_window(e->mlx->mlx, e->mlx->win, e->mlx->img, 0, 0);
-	return (0);
-}
-
-static void	hook_exposure(t_env *e)
-{
-	mlx_hook(e->mlx->win, KEYPRESS, KEYPRESSMASK, hook, e);
-	mlx_hook(e->mlx->win, KEYRELEASE, KEYRELEASEMASK, hook_move, e);
-	mlx_loop_hook(e->mlx->mlx, ants, e);
-	mlx_loop(e->mlx->mlx);
-}
 
 int	main(void)
 {
@@ -343,17 +296,110 @@ void	lem_in_error(char *s, int *loop)
 }
 
 /*
-** UNFINISHED function to graphically display ants
+** mlx functions
 */
 
-int	create_fdf(t_ants ants, map_dim[])
+#include "mlx.h"
+
+/*
+** function sleeps while awaiting user inputs
+*/
+
+void	hook_exposure(t_ants *e)
 {
-	while (++i.y < f-)
-	{
-		get_next_line(0, &line);
-		i.x = -1;
-		while (++i.x < f->piece_dim.x)
-			p[i.y][i.x] = INT2(line[i.x]);
-	}
+	mlx_hook(e->mlx->win, KEYPRESS, KEYPRESSMASK, hook, e);
+	mlx_hook(e->mlx->win, KEYRELEASE, KEYRELEASEMASK, hook_move, e);
+	mlx_loop_hook(e->mlx->mlx, draw_ants, e);
+	mlx_loop(e->mlx->mlx);
+}
+
+/*
+** 82 and 29 are 0, to reset. 53 is ESC
+*/
+
+int		hook(int k, t_ants *e)
+{
+	hook_move(k, e);
+	if (k == 82 || k == 29)
+		ft_init(e);
+	if (k == 53)
+		exit(1);
 	return (0);
+}
+
+int		hook_move(int k, t_ants *e)
+{
+	if (k == K_A || k == K_LEFT)
+		e->padding = 0 | LEFT;
+	else if (k == K_D || k == K_RIGHT)
+		e->padding = 0 | RIGHT;
+	else if (k == K_S || k == K_DOWN)
+		e->padding = 0 | DOWN;
+	else if (k == K_W || k == K_UP)
+		e->padding = 0 | UP;
+	return (0);
+}
+
+int		draw_ants(t_ants *e)
+{
+	mlx_destroy_image(e->mlx->mlx, e->mlx->img);
+	e->mlx->img = mlx_new_image(e->mlx->mlx, WIDTH, HEIGHT);
+//	move(e);
+	draw_rooms(e);
+	mlx_put_image_to_window(e->mlx->mlx, e->mlx->win, e->mlx->img, 0, 0);
+	return (0);
+}
+
+/*
+** function to draw each room
+*/
+
+void	draw_rooms(ANTS, ROOMS)
+{
+	t_xy	i;
+
+	ants->cell_dim.y = HEIGHT / (ants->max.y + 3); 
+	ants->cell_dim.x = WIDTH / (ants->max.y + 3);
+	i.y = 0;
+	while (i.y < max.y)
+	{
+		while (i.x < max.x)
+		{
+			if (TYPE)
+				draw_room(i, ants, rooms, TYPE);
+			++i.x;
+		}
+		++i.y;
+	}
+}
+
+/*
+** function to draw the room
+*/
+
+void	draw_room(t_xy pos, ANTS, ROOMS)
+{
+	t_xy	i;
+
+	i.y = ants->cell_dim.y * (pos.y + 2);
+	while (i.y < ants->cell_dim.y * (pos.y + 3))
+	{
+		i.x = ants->cell_dim.x * (pos.x + 2);
+		while (i.x < ants->cell_dim.x * (pos.x + 3))
+		{
+			ft_put_pixel(ants->mlx, i.x, i.y, 0xFF0000);
+			++i.x;
+		}
+		++i.y;
+	}
+}
+
+/*
+** color pixel exactly at the right y and x coords if inside the window.
+*/
+
+void	ft_put_pixel(t_mlx *m, int x, int y, int color)
+{
+	if (x >= 0 && y >= 0 && x < WIDTH && y < HEIGHT)
+		*(int *)&m->data[((x * m->bpp) >> 3) + (y * m->sl)] = color;
 }

@@ -79,6 +79,7 @@ typedef struct	s_ants
 	int			loop;
 	char		*tmp_s1;
 	char		*tmp_s2;
+	t_xy		cell_dim;
 }				t_ants;
 
 /*
@@ -115,5 +116,24 @@ int 	link_to_other_room(t_xy pos, ANTS, ROOMS, LINKS);
 */
 
 void	lem_in_error(char *s, int *loop);
+
+/*
+** mlx functions
+*/
+
+void	hook_exposure(t_ants *ants);
+int		hook(int k, t_ants *ants);
+int		hook_move(int k, t_ants *e);
+
+/*
+** drawing functions
+*/
+
+int		draw_ants(t_ants *ants);
+void	draw_rooms(ANTS, ROOMS)
+void	draw_room(t_xy pos, ANTS, ROOMS);
+void	ft_put_pixel(t_mlx *m, int x, int y, int color);
+
+
 
 #endif
