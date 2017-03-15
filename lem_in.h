@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:31:15 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/11 17:31:55 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/15 01:10:24 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,21 @@
 # define LEM ((char*)(parse->content))
 # define BUF_SIZE 32
 
+typedef struct		s_xy
+{
+	int				x;
+	int				y;
+}					t_xy;
+
 typedef struct		s_lemsize
 {
+	int				ants;
 	int				rooms;
 	int				maxname;
 	int				maxlinks;
+	t_xy			max;
+	t_xy			min;
+	int				gflag;
 }					t_lemsize;
 
 typedef struct		s_rooms
@@ -42,6 +52,8 @@ typedef struct		s_lem
 }					t_lem;
 
 long				errors(const int err, const char *name);
-void				lem_parser(t_array *parse, t_lemsize *size);
+void				lem_set_colony(const t_array *parse, const t_lemsize *size);
+int					lem_check(const char *line, t_lemsize *size, \
+					int *ant_room_lnk);
 
 #endif
