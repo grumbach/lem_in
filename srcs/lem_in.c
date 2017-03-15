@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:30:27 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/15 01:45:35 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/15 12:24:27 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	parse_em(t_array *parse, t_lemsize *size)
 	int			ret;
 	int			ant_room_lnk;
 
-	ant_room_lnk = 0;
+	ant_room_lnk = 1;
 	line = NULL;
 	while ((ret = ft_get_next_line(0, &line)) && ret != -1)
 	{

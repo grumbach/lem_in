@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:31:15 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/15 01:10:24 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/15 10:05:25 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@
 # include <sys/uio.h>
 # include <unistd.h>
 
+# define MAX(a, b) (a > b ? a : b)
+# define MIN(a, b) (a < b ? a : b)
 # define LEM ((char*)(parse->content))
-# define BUF_SIZE 32
 
 typedef struct		s_xy
 {
