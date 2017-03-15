@@ -8,7 +8,7 @@
 # define K_LEFT		123
 # define K_D		2
 # define K_RIGHT	124
-# define K_S		
+# define K_S		5//need to check
 # define K_DOWN		125
 # define K_W		13
 # define K_UP		126
@@ -17,6 +17,11 @@
 # define RIGHT		2
 # define DOWN		4
 # define UP			8
+
+# define KEYPRESS		2
+# define KEYPRESSMASK	(1L << 0)
+# define KEYRELEASE		3
+# define KEYRELEASEMASK	(1L << 1)
 
 # include "libft.h"//
 # include "mlx.h"
@@ -43,84 +48,57 @@ typedef struct	s_mlx
 	t_xy		i;
 }				t_mlx;
 
-/*
-** *name is room's name
-** type is 1 if starting, 2 if middle and 3 if ending
-** links are to other rooms are stored inside links
-*/
-
-typedef struct	s_rooms
+typedef struct		s_button
 {
-	char		*name;
-	int			type;
-	int			links[ants->max.y][ants->max.x];
-}				t_rooms;
-
+	int				padding;
+}					t_button;
 /*
-** mlx is for data relative to the mlx,
-** nb is the nb of ants
-** room_nb is the number of rooms used for our full stack array
-** room_index -> may be usefull in the future//
-** max is the size of the map to be drawn and room location
+** taking Anselme structure
 */
 
-typedef struct	s_ants
+
+typedef struct		s_array
 {
-	t_mlx		*mlx;
-	int			nb;
-	int			room_nb;
-	int			room_index;
-	t_xy		max;
-	int			loop;
-	char		*tmp_s1;
-	char		*tmp_s2;
-	t_xy		cell_dim;
-}				t_ants;
+	void				*content;
+	size_t				typesize;
+	unsigned long long	arraysize;
+}					t_array;
 
-# define ANTS		t_ants	*ants
-# define ROOMS		t_rooms rooms[ants->max.y][ants->max.x]
-# define LINKS		int		rooms[ants->max.y][ants->max.x]->links[ants->max.y][ants->max.x]
-# define NAME		rooms[i.y][i.x]->name
-# define TYPE		rooms[i.y][i.x]->type
+typedef struct		s_ants
+{
+	t_mlx			*mlx;
+	int				ants_nb;
+	int				rooms_nb;
+	int				maxname;
+	int				maxlinks;
+	t_xy			max;
+	t_xy			min;
+	t_xy			dim;
+	int				gflag;
+	t_button		button;	
+	t_xy			room_dim;	
+}					t_ants;
 
-/*
-** Rooms and their links initialization 
-*/
+typedef struct		s_rooms
+{
+	char			*roomname;
+	int				*links;
+}					t_rooms;
 
-void	init_rooms(ANTS, ROOMS);
-void	init_links(ANTS, t_xy pos, ROOMS, *LINKS);
+typedef struct		s_lem
+{
+	t_array			*parse;
+	t_rooms			*rooms;
+}					t_lem;
 
-/*
-** GLOBAL PARSING
-*/
-
-void	lem_in_parsing(ANTS);
-int		not_comment(char *line, int *start);
-
-/*
-** parsing new rooms
-*/
-
-void	add_room(ANTS, char *s, int type, t_rooms rooms);
-
-/*
-** parsing link between rooms
-*/
-
-void 	parse_links(ANTS, char *s);
-int 	check_room_name_and_link(ANTS, ROOMS, LINKS);
-int 	link_to_other_room(t_xy pos, ANTS, ROOMS, LINKS);
-
-/*
-** misc
-*/
-
-void	lem_in_error(char *s, int *loop);
+# define ANTS		t_ants *ants	
+# define ROOMS		int	map[ants->dim.y][ants->dim.x]
 
 /*
 ** mlx functions
 */
 
+int		mlx_loop_hook2(void *mlx_ptr, int (*funct_ptr)(), ANTS, ROOMS);
 void	hook_exposure(ANTS);
 int		hook(int k, ANTS);
 int		hook_move(int k, t_ants *e);
@@ -129,9 +107,9 @@ int		hook_move(int k, t_ants *e);
 ** drawing functions
 */
 
-int		draw_ants(ANTS);
+int		draw_ants(ANTS, ROOMS);
 void	draw_rooms(ANTS, ROOMS);
-void	draw_room(t_xy pos, ANTS, ROOMS);
+void	draw_room(t_xy pos, ANTS);
 void	ft_put_pixel(t_mlx *m, int x, int y, int color);
 
 

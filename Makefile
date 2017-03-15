@@ -3,20 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+         #
+#    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/11 00:03:30 by agrumbac          #+#    #+#              #
-#    Updated: 2017/03/12 10:13:16 by angavrel         ###   ########.fr        #
+#    Updated: 2017/03/15 19:36:33 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = lem-in
-
 SEE_NAME = see-ants
 
-SRC = lem_in.c
-
-SEE_SRC = lem_in_viewer.c
+SEE_SRC = draw.c
 
 OBJDIR = objs
 
@@ -26,13 +22,11 @@ DEP = lem_in.h libft/incl/libft.h libft/incl/ft_printf.h
 
 CC = gcc
 
-OBJ = $(addprefix ${OBJDIR}/, $(SEE_SRC:.c=.o))
-
-SEE_OBJ = $(addprefix ${OBJDIR}/, $(SRC:.c=.o))
+SEE_OBJ = $(addprefix ${OBJDIR}/, $(SEE_SRC:.c=.o))
 
 MLX = minilibx_macos/
 
-FRAMEWORKS = -framework OpenGL -framework AppKit
+FRAMEWORKS = -lmlx -framework OpenGL -framework AppKit
 
 Y = "\033[33m"
 R = "\033[31m"
@@ -44,20 +38,15 @@ X = "\033[0m"
 UP = "\033[A"
 CUT = "\033[K"
 
-all: ant ${NAME} ${SEE_NAME}
+all: ant ${SEE_NAME}
 	@echo ${G}Success"   "[${NAME}]${X}
-
-${NAME}: ${OBJ}
-	@make -C libft/
-	@echo ${B}Compiling [${NAME}]...${X}
-	@${CC} ${CFLAGS} -Ilibft/incl/ -Llibft/ -lft -I. -o $@ ${OBJ}
 
 ${SEE_NAME}: ${SEE_OBJ}
 	@echo ${B}Compiling [mlx]...${X}
 	@make -C ${MLX}
 	@echo ${G}Success"   "[mlx]${X}
 	@echo ${B}Compiling [${SEE_NAME}]...${X}
-	@${CC} ${CFLAGS} -Ilibft/incl/ -I. -I${MLX} -Llibft/ -lft \
+	@${CC} ${CFLAGS} -Ilibft/includes/ -I. -I${MLX} -Llibft/ -lft \
 		-L${MLX} -lmlx ${FRAMEWORKS} -o $@ ${SEE_OBJ}
 
 ${OBJDIR}/%.o : ./srcs/%.c ${DEP}
