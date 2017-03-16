@@ -45,14 +45,14 @@ typedef struct	s_mlx
 	int			bpp;
 	int			endian;
 	int			sl;
-	t_xy		i;
 }				t_mlx;
 
 typedef struct		s_param
 {
-	int				padding;
+	t_xy			padding;
 	double			scaling;
 }					t_param;
+
 /*
 ** taking Anselme structure
 */
@@ -77,13 +77,16 @@ typedef struct		s_ants
 	t_xy			dim;
 	int				gflag;
 	t_param			param;	
-	t_xy			room_dim;	
+	t_xy			room_dim;
+	int				room_size;
 }					t_ants;
 
 typedef struct		s_rooms
 {
 	char			*roomname;
 	int				*links;
+	t_xy			pos;
+	int				type;
 }					t_rooms;
 
 typedef struct		s_lem
@@ -99,8 +102,7 @@ typedef struct		s_lem
 ** mlx functions
 */
 
-int		mlx_loop_hook2(void *mlx_ptr, int (*funct_ptr)(), ANTS, ROOMS);
-void	hook_exposure(ANTS);
+void	hook_exposure(ANTS, ROOMS);
 int		hook(int k, ANTS);
 int		hook_move(int k, t_ants *e);
 
@@ -108,10 +110,17 @@ int		hook_move(int k, t_ants *e);
 ** drawing functions
 */
 
+void	init_rooms(t_ants *ants);
 int		draw_ants(ANTS, ROOMS);
 void	draw_rooms(ANTS, ROOMS);
 void	draw_room(t_xy pos, ANTS);
 void	ft_put_pixel(t_mlx *m, int x, int y, int color);
+
+/*
+**
+*/
+
+void	reset_controls(t_param *param);
 
 
 
