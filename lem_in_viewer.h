@@ -48,10 +48,11 @@ typedef struct	s_mlx
 	t_xy		i;
 }				t_mlx;
 
-typedef struct		s_button
+typedef struct		s_param
 {
 	int				padding;
-}					t_button;
+	double			scaling;
+}					t_param;
 /*
 ** taking Anselme structure
 */
@@ -75,7 +76,7 @@ typedef struct		s_ants
 	t_xy			min;
 	t_xy			dim;
 	int				gflag;
-	t_button		button;	
+	t_param			param;	
 	t_xy			room_dim;	
 }					t_ants;
 

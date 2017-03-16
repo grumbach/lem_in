@@ -6,25 +6,47 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 13:37:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/15 19:35:51 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/16 15:24:42 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in_viewer.h"
+
+void	ft_init_img(t_mlx *mlx)
+{
+	int		bpp;
+	int		sl;
+	int		endian;
+
+	mlx->img = mlx_new_image(mlx->mlx, WIDTH, HEIGHT);
+	mlx->data = mlx_get_data_addr(mlx->img, &bpp, &sl, &endian);
+	mlx->bpp = bpp;
+	mlx->sl = sl;
+	mlx->endian = endian;
+}
 
 int		main(void)
 {
 	t_mlx   mlx;
 	t_ants  ants;
 
+	//mlx = NULL;
+	mlx.mlx = mlx_init();
+	mlx.win = mlx_new_window(mlx.mlx, WIDTH, HEIGHT, "see ants");
+	ft_init_img(&mlx);
 	ants.rooms_nb = 8; // valeur envoyee par Anselme
 	ants.max = (t_xy) {.x = 8, .y = 10}; // valeur envoyee par Anselme
 	ants.min = (t_xy) {.x = 0, .y = 2}; // valeur envoyee par Anselme
 	ants.mlx = &mlx;
-    ants.dim.y = ants.max.y - ants.min.y;
-    ants.dim.x = ants.max.x - ants.min.x;
+    ants.dim.y = ants.max.y - ants.min.y + 1;
+    ants.dim.x = ants.max.x - ants.min.x + 1;
 	hook_exposure(&ants);
 	return (0);
+}
+
+void	reset_controls(t_param *param)
+{
+	param->scaling = 1;
 }
 
 /*
@@ -35,36 +57,49 @@ void	hook_exposure(t_ants *ants)
 {
     int     map[ants->dim.y][ants->dim.x];
 
-	mlx_hook(ants->mlx->win, KEYPRESS, KEYPRESSMASK, hook, ants);
-	mlx_hook(ants->mlx->win, KEYRELEASE, KEYRELEASEMASK, hook_move, ants);
-	mlx_loop_hook2(ants->mlx->mlx, draw_ants, ants, map);
+	reset_controls(&ants->param);
+//	mlx_hook(ants->mlx->win, KEYPRESS, KEYPRESSMASK, hook, ants);
+//	mlx_hook(ants->mlx->win, KEYRELEASE, KEYRELEASEMASK, hook_move, ants);
+	//mlx_loop_hook2(ants->mlx->mlx, draw_ants, ants, map);
+	draw_ants(ants, map);
 	mlx_loop(ants->mlx->mlx);
 }
 
+
 /*
 ** 82 and 29 are 0, to reset. 53 is ESC
+** 69 is + amd 78 is -
 */
 
-int		hook(int k, t_ants *e)
+int		hook(int k, t_ants *ants)
 {
-	hook_move(k, e);
+	hook_move(k, ants);
 //	if (k == 82 || k == 29)
 //		ft_init(e);
-	if (k == 53)
+	if (k == 49 )
+	{
+		mlx_clear_window(ants->mlx->mlx, ants->mlx->win);
+		reset_controls(&ants->param);
+	}
+	else if (k == 53)
 		exit(1);
+	if (k == 69)
+		ants->param.scaling *= 1.25;
+	else if (k == 78 && ants->param.scaling > 0.05)
+		ants->param.scaling *= 0.9;
 	return (0);
 }
 
 int		hook_move(int k, t_ants *e)
 {
 	if (k == K_A || k == K_LEFT)
-		e->button.padding = 0 | LEFT;
+		e->param.padding = 0 | LEFT;
 	else if (k == K_D || k == K_RIGHT)
-		e->button.padding = 0 | RIGHT;
+		e->param.padding = 0 | RIGHT;
 	else if (k == K_S || k == K_DOWN)
-		e->button.padding = 0 | DOWN;
+		e->param.padding = 0 | DOWN;
 	else if (k == K_W || k == K_UP)
-		e->button.padding = 0 | UP;
+		e->param.padding = 0 | UP;
 	return (0);
 }
 
@@ -86,11 +121,13 @@ void	draw_rooms(ANTS, ROOMS)
 {
 	t_xy	i;
 
-	ants->room_dim.y = HEIGHT / (ants->max.y + 3); 
-	ants->room_dim.x = WIDTH / (ants->max.y + 3);
+	ants->room_dim.y = (int)(ants->param.scaling * (double)HEIGHT / ((double)ants->dim.y + 3)); 
+	ants->room_dim.x = (int)(ants->param.scaling * (double)WIDTH / ((double)ants->dim.x + 3)); 
 	i.y = 0;
 	while (i.y < ants->room_dim.y)
 	{
+//		ft_putnbr(i.y);
+	//	ft_putchar('\n');
 		while (i.x < ants->room_dim.x)
 		{
 			if (map[i.y][i.x]) // if room exist

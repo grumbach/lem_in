@@ -6,13 +6,15 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/11 00:03:30 by agrumbac          #+#    #+#              #
-#    Updated: 2017/03/15 19:36:33 by angavrel         ###   ########.fr        #
+#    Updated: 2017/03/16 15:13:43 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SEE_NAME = see-ants
 
-SEE_SRC = draw.c
+SEE_SRC =	draw.c \
+			controls.c \
+
 
 OBJDIR = objs
 
@@ -46,13 +48,13 @@ ${SEE_NAME}: ${SEE_OBJ}
 	@make -C ${MLX}
 	@echo ${G}Success"   "[mlx]${X}
 	@echo ${B}Compiling [${SEE_NAME}]...${X}
-	@${CC} ${CFLAGS} -Ilibft/includes/ -I. -I${MLX} -Llibft/ -lft \
+	@${CC} ${CFLAGS} -I libft/ -I. -I ${MLX} -L libft/ -lft \
 		-L${MLX} -lmlx ${FRAMEWORKS} -o $@ ${SEE_OBJ}
 
 ${OBJDIR}/%.o : ./srcs/%.c ${DEP}
 	@echo ${Y}Compiling [$@]...${X}
 	@/bin/mkdir -p ${OBJDIR}
-	@${CC} ${CFLAGS} -Ilibft/incl/ -I. -c -o $@ $<
+	@${CC} ${CFLAGS} -I libft/incl/ -I. -c -o $@ $<
 	@printf ${UP}${CUT}
 
 clean:
