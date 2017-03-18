@@ -6,13 +6,13 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:30:27 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/18 17:29:20 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/18 21:47:55 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-long		errors(const int err, const char *name)
+void		errors(const int err, const char *name)
 {
 	ft_putstr_fd("lem-in: ", 2);
 	if (err == 2)
@@ -33,7 +33,6 @@ long		errors(const int err, const char *name)
 	else if (err == 4)
 		ft_putstr_fd("Jackass detected...\n", 2);
 	exit(1);
-	return (0);
 }
 
 static void	parse_em(t_array *parse, t_lemsize *size)

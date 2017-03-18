@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:31:15 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/18 19:47:29 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/18 22:20:45 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,16 @@ typedef struct		s_rooms
 {
 	char			*roomname;
 	int				*links;
-	int				mode;
+	int				type;
+	int				ants;
 }					t_rooms;
 
-long				errors(const int err, const char *name);
-void				lem_set_colony(t_array *parse, const t_lemsize *size);
+void				errors(const int err, const char *name);
 int					lem_check(const char *line, t_lemsize *size, \
 					int *ant_room_lnk);
+void				lem_set_colony(t_array *parse, const t_lemsize *size);
+void				lem_reset_links(void *links, const t_lemsize *size);
+int					lem_find_name(char *big, void *names, int len, \
+					const t_lemsize *size);
 
 #endif
