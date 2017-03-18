@@ -6,58 +6,67 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 14:01:56 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/18 16:54:36 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/18 19:53:59 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int				set_em_names(char **par, void *names, const t_lemsize *size)
+static int		set_em_names(char **par, void *names, const t_lemsize *size)
 {
 	int			namecount;
-	char		(*name)[size->rooms][size->maxname];
+	int			i;
+	char		(*name)[SIZEROOM][SIZENAME];
 
 	name = names;
 	namecount = 0;
-
-	ft_printf("(%c+%c)\n", **par, *++*par);
-
-	if (!namecount)
-		return (0);
-	return (1);
+	while (**par && !(i = 0))
+		if (**par == '\n')
+			(*par)++;
+		else if (**par == '#')
+			while (**par && **par != '\n')
+				(*par)++;
+		else if (ft_strchr(*par, '\n') < ft_strchr(*par, '-') && **par != ' ')
+		{
+			while (**par && **par != '\n' && **par != ' ' \
+				&& ((*name)[namecount][i++] = **par))
+				(*par)++;
+			namecount++;
+			while (**par != '\n' && **par)
+				(*par)++;
+		}
+		else//carefull if ft_strchr(*par + i, '-') == NULL
+			break ;
+	return (namecount);
 }
 
-int				set_em_links(char **par, void *names, void *links, \
+static int		set_em_links(char **par, void *names, void *links, \
 				const t_lemsize *size)
 {
 	int			linkcount;
-	int			(*link)[size->rooms][size->maxlinks];
-	char		(*name)[size->rooms][size->maxname];
+	int			(*link)[SIZEROOM][SIZELINK];
+	char		(*name)[SIZEROOM][SIZENAME];
 
 	name = names;
 	link = links;
 	linkcount = 0;
-
 	ft_printf("(%c=%c)\n", **par, *++*par);
-
-	if (!linkcount)
-		return (0);
-	return (1);
+	return (linkcount);
 }
 
-void			link_all_that(void *rooms, void *names, void *links, \
+static void		link_all_that(void *rooms, void *names, void *links, \
 				const t_lemsize *size)
 {
-	t_rooms		(*room)[size->rooms];
-	char		(*name)[size->rooms][size->maxname];
-	int			(*link)[size->rooms][size->maxlinks];
+	t_rooms		(*room)[SIZEROOM];
+	char		(*name)[SIZEROOM][SIZENAME];
+	int			(*link)[SIZEROOM][SIZELINK];
 
 	room = rooms;
 	name = names;
 	link = links;
 }
 
-int				initialize_em(char **par, const t_lemsize *size)
+static int		initialize_em(char **par, const t_lemsize *size)
 {
 	if (size->ants <= 0)
 		return (0);
@@ -68,16 +77,16 @@ int				initialize_em(char **par, const t_lemsize *size)
 		if (**par == '\n')
 			(*par)++;
 	}
-	while (ft_isdigit(**par) && **par++)
-		;
+	while (ft_isdigit(**par))
+		(*par)++;
 	return (1);
 }
 
 void			lem_set_colony(t_array *parse, const t_lemsize *size)
 {
-	t_rooms		rooms[size->rooms];
-	char		names[size->rooms][size->maxname];
-	int			links[size->rooms][size->maxlinks];
+	t_rooms		rooms[SIZEROOM];
+	char		names[SIZEROOM][SIZENAME];
+	int			links[SIZEROOM][SIZELINK];
 	char		*par;
 
 	ft_bzero(&rooms, sizeof(rooms));
@@ -87,12 +96,12 @@ void			lem_set_colony(t_array *parse, const t_lemsize *size)
 	if (!initialize_em(&par, size))
 		LERROR(3, "ERROR -- This colony is sad and empty...");
 	if (!ft_strstr(par, "\n##start\n"))
-		LERROR(3, "ERROR -- You should ##start a carreer in Wordpress...");
+		LERROR(3, "ERROR -- Where should I ##start...");
 	if (!ft_strstr(par, "\n##end\n"))
-		LERROR(3, "ERROR -- There's no ##end to your stupidity...");
+		LERROR(3, "ERROR -- Where is the ##end... My only friend...");
 	if (!set_em_names(&par, names, size))
-		LERROR(3, "ERROR -- No room for you in my heart...");
+		LERROR(3, "ERROR -- Here's room 404 for you...");
 	if (!set_em_links(&par, names, links, size))
-		LERROR(3, "ERROR -- Get a link...");
+		LERROR(3, "ERROR -- Zelda died : Link not found...");
 	link_all_that(rooms, names, links, size);
 }

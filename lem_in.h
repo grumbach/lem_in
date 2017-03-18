@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:31:15 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/18 11:59:20 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/18 19:47:29 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 # define MIN(a, b) (a < b ? a : b)
 # define LEM ((char*)(parse->content))
 # define LERROR(i, c) {ft_arraydel(&parse); errors(i, c);}
+# define SIZEROOM size->rooms + 1
+# define SIZENAME size->maxname + 1
+# define SIZELINK size->maxlinks + 1
 
 typedef struct		s_xy
 {
