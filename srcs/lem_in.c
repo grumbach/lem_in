@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:30:27 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/15 12:24:27 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/15 12:47:20 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ long		errors(const int err, const char *name)
 		ft_putstr_fd("ERROR\n", 2);
 	else if (err == 2)
 		ft_putstr_fd("\nusage : lem_in [-g] < [file]\n", 2);
+	else if (err == 3)
+		ft_putstr_fd("\n", 2);
 	else if (err == 4)
 		ft_putstr_fd("Jackass detected...\n", 2);
 	exit(1);

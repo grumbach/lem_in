@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:31:15 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/15 10:05:25 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/18 11:59:20 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # define MAX(a, b) (a > b ? a : b)
 # define MIN(a, b) (a < b ? a : b)
 # define LEM ((char*)(parse->content))
+# define LERROR(i, c) {ft_arraydel(&parse); errors(i, c);}
 
 typedef struct		s_xy
 {
@@ -44,16 +45,11 @@ typedef struct		s_rooms
 {
 	char			*roomname;
 	int				*links;
+	int				mode;
 }					t_rooms;
 
-typedef struct		s_lem
-{
-	t_array			*parse;
-	t_rooms			*rooms;
-}					t_lem;
-
 long				errors(const int err, const char *name);
-void				lem_set_colony(const t_array *parse, const t_lemsize *size);
+void				lem_set_colony(t_array *parse, const t_lemsize *size);
 int					lem_check(const char *line, t_lemsize *size, \
 					int *ant_room_lnk);
 
