@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 14:01:56 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/20 03:47:21 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/20 10:29:15 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,16 +126,16 @@ void			lem_set_colony(t_array *parse, const t_lemsize *size)
 	par = LEM;
 	if (!lem_initialize_em(links, &par, size))
 		LERROR(3, "ERROR -- This colony is sad and empty...");
-	if (!ft_strstr(par, "\n##start\n"))
-		LERROR(3, "ERROR -- Where should I ##start...");
-	if (!ft_strstr(par, "\n##end\n"))
-		LERROR(3, "ERROR -- Where is the ##end... My only friend...");
 	if (!(ret = set_em_names(&par, names, size)))
 		LERROR(3, "ERROR -- Here's room 404 for you...");
 	if (ret == -1)
 		LERROR(3, "ERROR -- Zelda died : Link not found...");
 	if (!set_em_links(&par, names, links, size))
 		LERROR(3, "ERROR -- Zelda died : Link not found...");
+	if (!(ret = lem_start_end(LEM, rooms, names, size)))
+		LERROR(3, "ERROR -- Where should I ##start...");
+	if (ret == -1)
+		LERROR(3, "ERROR -- Where is the ##end... My only friend...");
 	link_all_that(rooms, names, links, size);
-	// lem_smart_ant(rooms, size);
+	lem_smart_ant(rooms, size);
 }

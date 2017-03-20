@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/20 03:49:36 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/20 05:26:06 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/20 11:22:05 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 static void		print_colony(void *rooms, const t_lemsize *size)
 {
-	t_rooms		(*room)[size->rooms + 1];
-	int		i;
-	int		j;
+	int			i;
+	int			j;
 
+	t_rooms(*room)[size->rooms + 1];
 	room = rooms;
 	i = 0;
 	ft_printf("%d %d %d %d %d %d %d\n", size->rooms, size->maxname, \
@@ -36,11 +36,8 @@ static void		print_colony(void *rooms, const t_lemsize *size)
 
 void			lem_smart_ant(void *rooms, const t_lemsize *size)
 {
-	t_rooms		(*room)[size->rooms + 1];
-
+	t_rooms(*room)[size->rooms + 1];
 	room = rooms;
 	if (size->gflag)
 		print_colony(rooms, size);
 }
-
-//other 0 start 1 end 2
