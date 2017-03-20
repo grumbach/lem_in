@@ -6,7 +6,7 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/11 00:03:30 by agrumbac          #+#    #+#              #
-#    Updated: 2017/03/16 15:13:43 by angavrel         ###   ########.fr        #
+#    Updated: 2017/03/20 04:10:29 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,7 @@ ${SEE_NAME}: ${SEE_OBJ}
 		-L${MLX} -lmlx ${FRAMEWORKS} -o $@ ${SEE_OBJ}
 
 ${OBJDIR}/%.o : ./srcs/%.c ${DEP}
-	@echo ${Y}Compiling [$@]...${X}
+	@echo ${Y}Compiling [${SEE_NAME]...${X}
 	@/bin/mkdir -p ${OBJDIR}
 	@${CC} ${CFLAGS} -I libft/incl/ -I. -c -o $@ $<
 	@printf ${UP}${CUT}

@@ -79,6 +79,7 @@ typedef struct		s_ants
 	t_param			param;	
 	t_xy			room_dim;
 	int				room_size;
+	void			*map_pointer;
 }					t_ants;
 
 typedef struct		s_rooms
@@ -102,7 +103,7 @@ typedef struct		s_lem
 ** mlx functions
 */
 
-void	hook_exposure(ANTS, ROOMS);
+void	hook_exposure(ANTS);
 int		hook(int k, ANTS);
 int		hook_move(int k, t_ants *e);
 
@@ -111,8 +112,8 @@ int		hook_move(int k, t_ants *e);
 */
 
 void	init_rooms(t_ants *ants);
-int		draw_ants(ANTS, ROOMS);
-void	draw_rooms(ANTS, ROOMS);
+int		draw_ants(ANTS);
+void	draw_rooms(ANTS);
 void	draw_room(t_xy pos, ANTS);
 void	ft_put_pixel(t_mlx *m, int x, int y, int color);
 
