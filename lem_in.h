@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:31:15 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/20 03:38:52 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/20 03:48:06 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,6 @@
 # define MIN(a, b) (a < b ? a : b)
 # define LEM ((char*)(parse->content))
 # define LERROR(i, c) {ft_arraydel(&parse); errors(i, c);}
-# define SIZEROOM size->rooms + 1
-# define SIZENAME size->maxname + 1
-# define SIZELINK size->maxlinks + 1
 
 typedef struct		s_xy
 {
@@ -58,8 +55,6 @@ int					lem_check(const char *line, t_lemsize *size, \
 void				lem_set_colony(t_array *parse, const t_lemsize *size);
 int					lem_initialize_em(void *links, char **par, \
 					const t_lemsize *size);
-// void				lem_link_all_that(void *rooms, void *names, void *links, \
-// 					const t_lemsize *size);
 char				*lem_check_link(char *par);
 int					lem_find_name(char *big, void *names, int len, \
 					const t_lemsize *size);

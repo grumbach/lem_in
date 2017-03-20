@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 14:01:56 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/20 03:39:09 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/20 03:47:21 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int		set_em_names(char **par, void *names, const t_lemsize *size)
 {
 	int			namecount;
 	int			i;
-	char		(*name)[SIZEROOM][SIZENAME];
+	char		(*name)[size->rooms + 1][size->maxname + 1];
 
 	name = names;
 	namecount = 0;
@@ -46,7 +46,7 @@ static int		set_em_links_write(char *par, void *names, void *links, \
 	int			i;
 	int			pre;
 	int			pos;
-	int			(*link)[SIZEROOM][SIZELINK];
+	int			(*link)[size->rooms + 1][size->maxlinks + 1];
 	char		*bond;
 
 	link = links;
@@ -70,8 +70,8 @@ static int		set_em_links(char **par, void *names, void *links, \
 				const t_lemsize *size)
 {
 	int			linkcount;
-	int			(*link)[SIZEROOM][SIZELINK];
-	char		(*name)[SIZEROOM][SIZENAME];
+	int			(*link)[size->rooms + 1][size->maxlinks + 1];
+	char		(*name)[size->rooms + 1][size->maxname + 1];
 
 	name = names;
 	link = links;
@@ -95,16 +95,16 @@ static int		set_em_links(char **par, void *names, void *links, \
 static void		link_all_that(void *rooms, void *names, void *links, \
 			const t_lemsize *size)
 {
-	t_rooms		(*room)[SIZEROOM];
-	char		(*name)[SIZEROOM][SIZENAME];
-	int			(*link)[SIZEROOM][SIZELINK];
+	t_rooms		(*room)[size->rooms + 1];
+	char		(*name)[size->rooms + 1][size->maxname + 1];
+	int			(*link)[size->rooms + 1][size->maxlinks + 1];
 	int			i;
 
 	room = rooms;
 	name = names;
 	link = links;
 	i = 0;
-	while (i < SIZEROOM)
+	while (i < size->rooms + 1)
 	{
 		(*room)[i].roomname = &((*name)[i][0]);
 		(*room)[i].links = &((*link)[i][0]);
@@ -114,9 +114,9 @@ static void		link_all_that(void *rooms, void *names, void *links, \
 
 void			lem_set_colony(t_array *parse, const t_lemsize *size)
 {
-	t_rooms		rooms[SIZEROOM];
-	char		names[SIZEROOM][SIZENAME];
-	int			links[SIZEROOM][SIZELINK];
+	t_rooms		rooms[size->rooms + 1];
+	char		names[size->rooms + 1][size->maxname + 1];
+	int			links[size->rooms + 1][size->maxlinks + 1];
 	char		*par;
 	int			ret;
 
@@ -137,4 +137,5 @@ void			lem_set_colony(t_array *parse, const t_lemsize *size)
 	if (!set_em_links(&par, names, links, size))
 		LERROR(3, "ERROR -- Zelda died : Link not found...");
 	link_all_that(rooms, names, links, size);
+	// lem_smart_ant(rooms, size);
 }
