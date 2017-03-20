@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:30:27 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/18 21:47:55 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/20 05:03:09 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,6 @@ int			main(int ac, char **av)
 		errors(0, 0);
 	parse_em(parse, &size);
 	lem_set_colony(parse, &size);
-	if (size.gflag)
-		ft_printf("%d %d %d %d %d %d %d\n", size.rooms, size.maxname, \
-		size.maxlinks, size.min.x, size.max.x, size.min.y, size.max.y);
 	ft_printf("%s", LEM);
 	ft_arraydel(&parse);
 	return (0);

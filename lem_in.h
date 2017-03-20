@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:31:15 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/20 03:48:06 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/20 03:54:14 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,6 @@ int					lem_initialize_em(void *links, char **par, \
 char				*lem_check_link(char *par);
 int					lem_find_name(char *big, void *names, int len, \
 					const t_lemsize *size);
+void				lem_smart_ant(void *rooms, const t_lemsize *size);
 
 #endif
