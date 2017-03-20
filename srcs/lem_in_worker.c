@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 22:02:04 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/20 12:03:16 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/20 13:41:47 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	lem_get_end(char *par, void *rooms, void *names, \
 	}
 	if (see[i] != ' ' || !see[i])
 		return (-1);
-	(*room)[lem_find_name(tmpname, names, i, size)].type = 2;
+	(*room)[lem_find_name(tmpname, names, i, size)].type = END;
 	return (1);
 }
 
@@ -60,7 +60,7 @@ int			lem_start_end(char *par, void *rooms, void *names, \
 	}
 	if (see[i] != ' ' || !see[i])
 		return (0);
-	(*room)[lem_find_name(tmpname, names, i, size)].type = 1;
+	(*room)[lem_find_name(tmpname, names, i, size)].type = START;
 	return (lem_get_end(par, rooms, names, size));
 }
 

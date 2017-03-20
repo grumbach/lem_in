@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/20 03:49:36 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/20 11:22:05 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/20 13:55:18 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,45 @@ static void		print_colony(void *rooms, const t_lemsize *size)
 	}
 }
 
-void			lem_smart_ant(void *rooms, const t_lemsize *size)
+static int		lem_start(void *rooms, const t_lemsize *size)
 {
+	int			i;
+
 	t_rooms(*room)[size->rooms + 1];
 	room = rooms;
+	i = 0;
+	while ((*room)[i].type != START)
+		i++;
+	return (i);
+}
+
+static int		lem_end(void *rooms, const t_lemsize *size)
+{
+	int			i;
+
+	t_rooms(*room)[size->rooms + 1];
+	room = rooms;
+	i = 0;
+	while ((*room)[i].type != END)
+		i++;
+	return (i);
+}
+
+void			lem_smart_ant(void *rooms, const t_lemsize *size)
+{
+	int			maxflux;
+	int			i;
+
+	t_rooms(*room)[size->rooms + 1];
+	room = rooms;
+	maxflux = 0;
+	i = 0;
 	if (size->gflag)
 		print_colony(rooms, size);
+	while ((*room)[lem_start(rooms, size)].links[i] != -1)
+		i++;
+	while ((*room)[lem_end(rooms, size)].links[maxflux] != -1)
+		maxflux++;
+	maxflux = MIN(maxflux, i);
+	lem_pathfinder(maxflux, rooms, size);
 }

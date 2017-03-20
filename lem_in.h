@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:31:15 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/20 10:29:05 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/20 13:57:15 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # define MIN(a, b) (a < b ? a : b)
 # define LEM ((char*)(parse->content))
 # define LERROR(i, c) {ft_arraydel(&parse); errors(i, c);}
+# define START 1
+# define END 2
 
 typedef struct		s_xy
 {
@@ -61,5 +63,7 @@ int					lem_start_end(char *par, void *rooms, void *names, \
 int					lem_find_name(char *big, void *names, int len, \
 					const t_lemsize *size);
 void				lem_smart_ant(void *rooms, const t_lemsize *size);
+void				lem_pathfinder(const int maxflux, const void *rooms, \
+					const t_lemsize *size);
 
 #endif
