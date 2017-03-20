@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 22:02:04 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/20 11:19:28 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/20 12:03:16 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ static int	lem_get_end(char *par, void *rooms, void *names, \
 	see = NULL;
 	i = 0;
 	ft_bzero(tmpname, sizeof(tmpname));
-	see = ft_strstr(par, "\n##end\n") + 7;
+	if (!(see = ft_strstr(par, "\n##end\n")))
+		return (-1);
+	see = see + 7;
 	while (see[i] != ' ' && see[i] != '\n' && see[i] && i < size->maxname)
 	{
 		tmpname[i] = see[i];
@@ -48,7 +50,9 @@ int			lem_start_end(char *par, void *rooms, void *names, \
 	see = NULL;
 	i = 0;
 	ft_bzero(tmpname, sizeof(tmpname));
-	see = ft_strstr(par, "\n##start\n") + 9;
+	if (!(see = ft_strstr(par, "\n##start\n")))
+		return (0);
+	see = see + 9;
 	while (see[i] != ' ' && see[i] != '\n' && see[i] && i < size->maxname)
 	{
 		tmpname[i] = see[i];
