@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:31:15 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/18 22:20:45 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/20 03:38:52 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,11 @@ void				errors(const int err, const char *name);
 int					lem_check(const char *line, t_lemsize *size, \
 					int *ant_room_lnk);
 void				lem_set_colony(t_array *parse, const t_lemsize *size);
-void				lem_reset_links(void *links, const t_lemsize *size);
+int					lem_initialize_em(void *links, char **par, \
+					const t_lemsize *size);
+// void				lem_link_all_that(void *rooms, void *names, void *links, \
+// 					const t_lemsize *size);
+char				*lem_check_link(char *par);
 int					lem_find_name(char *big, void *names, int len, \
 					const t_lemsize *size);
 
