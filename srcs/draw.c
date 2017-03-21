@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 13:37:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/20 04:26:32 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/21 04:32:44 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int		main(void)
 		ft_printf("%d %d %d %d %d %d %d\n", size.rooms, size.maxname, \
 
 		6 7 3 -4 8 -1 5
+		
 
 		size.maxlinks, size.min.x, size.max.x, size.min.y, size.max.y);*/
 	
@@ -53,14 +54,11 @@ int		main(void)
 	i.y = 0;
 	while (*s && *s != '\n')
 	{
-		i.x = 0;
+		i.x = -1;
 		if (*s == ' ')
 			++s;
 		while (*s && *s != ' ' && *s != '\n')
-		{
-			parameters[i.y][i.x] = *s++;
-			++i.x;
-		}
+			parameters[i.y][++i.x] = *s++;
 		++i.y;
 	}
 	ants.rooms_nb = ft_atoi(parameters[0]);
@@ -70,12 +68,37 @@ int		main(void)
 	ants.max.x = ft_atoi(parameters[4]);
 	ants.min.y = ft_atoi(parameters[5]);
 	ants.max.y = ft_atoi(parameters[6]);
+	ants.dim.y = ants.max.y - ants.min.y + 1;
+	ants.dim.x = ants.max.x - ants.min.x + 1;
 	mlx.mlx = mlx_init();
 	mlx.win = mlx_new_window(mlx.mlx, WIDTH, HEIGHT, "see ants");
 	ft_init_img(&mlx);
+	ft_putchar('y');
 	reset_controls(&ants.param);
+	ft_putchar('u');
 	init_rooms(&ants);
+	ft_putchar('v');
 	return (0);
+}
+
+void	parse_rooms(t_ants *ants, int map[ants->dim.y][ants->dim.x]
+{
+	int		room_index;
+	char	*line;
+	t_xy	i;
+
+	room_index = -1;
+	while (++room_index < ants->rooms_nb)
+	{
+		get_next_line(0, &line);
+		while (*s && *s != '\n')
+		{
+			parse_room_name(&line);
+			parse_room_links(&line);
+			parse_room_pos(&line, map);
+
+		}
+	}
 }
 
 
@@ -87,30 +110,26 @@ void	init_rooms(t_ants *ants)
 {
 	int     map[ants->dim.y][ants->dim.x];
 	t_rooms	rooms[ants->rooms_nb];
-	t_xy	i;
 
+//	ft_printf("nb of rooms: %d\nlongest name: %d\nlinks max: %d\nmin/max x : (%d %d), min/max y : (%d %d),\n dim x y : (%d %d)\n",
+//		ants->rooms_nb, ants->maxname, ants->maxlinks, ants->min.x, ants->max.x, ants->min.y, ants->max.y, ants->dim.x, ants->dim.y);
+	ft_putchar('v');
 	ft_bzero(map, sizeof(map));
-	rooms[0].pos = (t_xy) {.y = 5, .x = 4};
-	rooms[0].type = 1;
-	rooms[1].pos = (t_xy) {.y = 5, .x = 4};
-	rooms[1].type = 2;
-	i.y = 0;
-	while (i.y < ants->dim.y)
-	{
-		i.x = 0;
-		while (i.x < ants->dim.x)
-		{
-			map[i.y][i.x] = 0;
-			++i.x;
-		}
-		++i.y;
-	}
-	i.y = -1;
-	while (++i.y < ants->rooms_nb)
-		map[rooms[i.y].pos.y][rooms[i.y].pos.x] = rooms[i.y].type;
-	hook_exposure(ants);
-
+	ft_putchar('l');
+	ft_bzero(rooms, sizeof(rooms));
+	ft_putchar('r');
 	ants->map_pointer = map;
+//	rooms[0].pos = (t_xy) {.y = 5, .x = 4};
+//	rooms[0].type = 1;
+//	rooms[1].pos = (t_xy) {.y = 5, .x = 4};
+//	rooms[1].type = 2;;
+
+	parse_rooms(ants, map);
+//		map[rooms[i.y].pos.y][rooms[i.y].pos.x] = rooms[i.y].type;
+	hook_exposure(ants);
+	ft_putchar('d');
+
+	
 }
 
 
@@ -128,41 +147,6 @@ void	hook_exposure(t_ants *ants)
 	mlx_loop_hook(ants->mlx->mlx, draw_ants, ants);
 	draw_ants(ants);
 	mlx_loop(ants->mlx->mlx);
-}
-
-
-/*
-** 53 is ESC
-** 49 is space bar (used to reset params)
-** 69 is + amd 78 is -
-*/
-
-int		hook(int k, t_ants *ants)
-{
-	hook_move(k, ants);
-	if (k == 49 )
-	{
-		mlx_clear_window(ants->mlx->mlx, ants->mlx->win);
-		reset_controls(&ants->param);
-	}
-	else if (k == 53)
-		exit(1);
-	else if (k == 69 || (k == 78 && ants->param.scaling > 0.05))
-		ants->param.scaling *= (k == 69 ? 1.25 : 0.8);
-	return (0);
-}
-
-int		hook_move(int k, t_ants *ants)
-{
-	if (k == K_A || k == K_LEFT)
-		--ants->param.padding.x;
-	else if (k == K_D || k == K_RIGHT)
-		++ants->param.padding.x;
-	else if (k == K_S || k == K_DOWN)
-		++ants->param.padding.y;
-	else if (k == K_W || k == K_UP)
-		--ants->param.padding.y;
-	return (0);
 }
 
 /*

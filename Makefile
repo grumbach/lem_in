@@ -6,7 +6,7 @@
 #    By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/11 00:03:30 by agrumbac          #+#    #+#              #
-#    Updated: 2017/03/20 04:10:29 by angavrel         ###   ########.fr        #
+#    Updated: 2017/03/21 03:51:31 by angavrel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,14 +59,14 @@ ${OBJDIR}/%.o : ./srcs/%.c ${DEP}
 
 clean:
 	@echo ${R}Cleaning"  "[libft objs]...${X}
-	@make -C libft/ clean
+#	@make -C libft/ clean
 	@echo ${R}Cleaning"  "[mlx]...${X}
 	@make -C ${MLX} clean
 	@echo ${R}Cleaning"  "[objs]...${X}
 	@/bin/rm -Rf ${OBJDIR}
 
 fclean: clean
-	@make -C libft/ fclean
+#	@make -C libft/ fclean
 	@echo ${R}Cleaning"  "[${NAME}]...${X}
 	@/bin/rm -f ${NAME}
 	@echo ${R}Cleaning"  "[${SEE_NAME}]...${X}
