@@ -115,7 +115,7 @@ int		hook_move(int k, t_ants *e);
 void	init_rooms(t_ants *ants);
 int		draw_ants(ANTS);
 void	draw_rooms(ANTS);
-void	draw_room(t_xy pos, ANTS);
+void	draw_room(ANTS, t_rooms room);
 void	ft_put_pixel(t_mlx *m, int x, int y, int color);
 
 /*

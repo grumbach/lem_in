@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 13:37:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/21 04:48:43 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/21 05:09:30 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,27 +82,47 @@ int		main(void)
 	return (0);
 }
 
-void	parse_rooms(t_ants *ants, int map[ants->dim.y][ants->dim.x]
-{
-//	int		room_index;
-//	char	*line;
-//	t_xy	i;
+/*
+** roomname y x type links
+*/
 
-/*	room_index = -1;
-	while (++room_index < ants->rooms_nb)
+void	parse_rooms(t_ants *ants, t_rooms rooms[ants->rooms_nb])
+{
+	char	*line;
+	t_xy	i;
+	char	*tmp;
+
+	i.y = -1;
+	while (++i.y < ants->rooms_nb)
 	{
 		get_next_line(0, &line);
-		while (*s && *s != '\n')
+		while (*line && *line != '\n')
 		{
-			parse_room_name(&line);
-			parse_room_links(&line);
-			parse_room_pos(&line, map);
+			while (*line && *line != ' ' && *line != '\n')
+				rooms[i.y].roomname = line++;
+			while (*line && *line != ' ' && *line != '\n')
+				tmp = line++;
+			rooms[i.y].pos.y = ft_atoi(tmp);
+			while (*line && *line != ' ' && *line != '\n')
+				tmp = line++;
+			rooms[i.y].pos.x = ft_atoi(tmp);
+			while (*line && *line != ' ' && *line != '\n')
+				tmp = line++;
+			rooms[i.y].type = ft_atoi(tmp);
+			i.x = -1;
+			while (*line && *line != '\n')
+			{
+				while (*line && *line != ' ' && *line != '\n')
+					tmp = line++;
+				rooms[i.y].links[++i.x] = ft_atoi(tmp);
+
+			}
+	//		parse_room_name(&line);
+	//		parse_room_links(&line);
+	//		parse_room_pos(&line, map);
 
 		}
-	}*/
-	map[3][4] = 
-
-
+	}
 }
 
 
@@ -117,11 +137,8 @@ void	init_rooms(t_ants *ants)
 
 //	ft_printf("nb of rooms: %d\nlongest name: %d\nlinks max: %d\nmin/max x : (%d %d), min/max y : (%d %d),\n dim x y : (%d %d)\n",
 //		ants->rooms_nb, ants->maxname, ants->maxlinks, ants->min.x, ants->max.x, ants->min.y, ants->max.y, ants->dim.x, ants->dim.y);
-	ft_putchar('v');
 	ft_bzero(map, sizeof(map));
-	ft_putchar('l');
 	ft_bzero(rooms, sizeof(rooms));
-	ft_putchar('r');
 	ants->map_pointer = map;
 	ants->rooms_pointer = rooms;
 //	rooms[0].pos = (t_xy) {.y = 5, .x = 4};
@@ -129,12 +146,9 @@ void	init_rooms(t_ants *ants)
 //	rooms[1].pos = (t_xy) {.y = 5, .x = 4};
 //	rooms[1].type = 2;;
 
-	parse_rooms(ants, map);
+	parse_rooms(ants, rooms);
 //		map[rooms[i.y].pos.y][rooms[i.y].pos.x] = rooms[i.y].type;
 	hook_exposure(ants);
-	ft_putchar('d');
-
-	
 }
 
 
@@ -184,10 +198,7 @@ void	draw_rooms(ANTS)
 	i = -1;
 	while(++i < ants->rooms_nb)
 	{
-		draw_room(roomi, ants);
-			++i.x;
-		}
-		++i.y;
+		draw_room(ants, rooms[i]);
 	}
 }
 
@@ -195,7 +206,7 @@ void	draw_rooms(ANTS)
 ** function to draw the room
 */
 
-void	draw_room(t_xy pos, ANTS)
+void	draw_room(ANTS, t_rooms room)
 {
 	t_xy	i;
 	float	radius_squared;
