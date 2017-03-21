@@ -109,13 +109,23 @@ int		hook(int k, ANTS);
 int		hook_move(int k, t_ants *e);
 
 /*
+** parsing (less strict as data has already been fully checked)
+*/
+
+void	parse_first_line(t_ants *ants);
+void	parse_rooms(t_ants *ants, char name[ants->rooms_nb][ants->maxname + 1],
+			t_rooms rooms[ants->rooms_nb]);
+void	parse_links(t_ants *ants, t_rooms rooms[ants->rooms_nb], char *line,
+			int room_index);
+
+/*
 ** drawing functions
 */
 
 void	init_rooms(t_ants *ants);
 int		draw_ants(ANTS);
 void	draw_rooms(ANTS);
-void	draw_room(ANTS, t_rooms room);
+void	draw_room(ANTS, void *rooms, int index);
 void	ft_put_pixel(t_mlx *m, int x, int y, int color);
 
 /*
