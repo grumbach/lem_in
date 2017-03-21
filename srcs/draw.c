@@ -6,7 +6,7 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 13:37:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/21 08:49:37 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/21 09:11:17 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ void	init_rooms(t_ants *ants)
 	ft_bzero(links, sizeof(links));
 	ants->map_pointer = map;
 	ants->rooms_pointer = rooms;
-	ants->rooms_nb = 1;///////////////////
+	ants->rooms_nb = 3;///////////////////
 	parse_rooms(ants, names, rooms);
 //		map[rooms[i.y].pos.y][rooms[i.y].pos.x] = rooms[i.y].type;
 	ft_putnbr(rooms[0].pos.y);//
@@ -212,7 +212,10 @@ void	draw_rooms(ANTS)
 //	ft_putnbr(ants->room_dim.x);
 	i = -1;
 	while (++i < ants->rooms_nb)
+	{
 		draw_room(ants, rooms, i);
+//		draw_links(ants, rooms, i);
+	}
 }
 
 /*
@@ -224,20 +227,22 @@ void	draw_room(ANTS, void *room, int n)
 {
 	t_rooms	(*rooms)[ants->rooms_nb];
 	t_xy	i;
-	float	radius_squared;
+//	float	radius_squared;
 
 	rooms = room;
 	ft_putnbr((*rooms)[0].pos.y);//
 	ft_putendl((*rooms)[0].roomname);//
-	radius_squared = (ants->room_size >> 1) * (ants->room_size >> 1);
-	ft_putnbr(radius_squared);//
+//	radius_squared = ants->room_size *
+//		((((*rooms)[n].pos.y + 2) + ((*rooms)[n].pos.y + 3)) >> 1);
+//	(ants->room_size >> 1) * (ants->room_size >> 1);
+//	ft_putnbr(radius_squared);//
 	i.y = ants->room_size * ((*rooms)[n].pos.y + 2);
 	while (i.y < ants->room_size * ((*rooms)[n].pos.y + 3))
 	{
-		i.x = ants->room_dim.x * ((*rooms)[n].pos.x + 2);
+		i.x = ants->room_size * ((*rooms)[n].pos.x + 2);
 		while (i.x < ants->room_size * ((*rooms)[n].pos.x + 3))
 		{
-	//		if (((i.x * i.x) + (i.y * i.y)) <= radius_squared * 1.60)
+	//		if (((i.x * i.x) + (i.y * i.y)) <= radius_squared)
 			ft_put_pixel(ants->mlx, i.x + ants->param.padding.x,
 				i.y + ants->param.padding.y, 0xFF0000);
 			++i.x;
