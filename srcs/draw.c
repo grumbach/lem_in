@@ -6,11 +6,15 @@
 /*   By: angavrel <angavrel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 13:37:28 by angavrel          #+#    #+#             */
-/*   Updated: 2017/03/21 04:32:44 by angavrel         ###   ########.fr       */
+/*   Updated: 2017/03/21 04:48:43 by angavrel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in_viewer.h"
+
+/*
+** init mlx win and img
+*/
 
 void	ft_init_img(t_mlx *mlx)
 {
@@ -18,38 +22,25 @@ void	ft_init_img(t_mlx *mlx)
 	int		sl;
 	int		endian;
 
+	mlx->mlx = mlx_init();
+	mlx->win = mlx_new_window(mlx->mlx, WIDTH, HEIGHT, "see ants");
 	mlx->img = mlx_new_image(mlx->mlx, WIDTH, HEIGHT);
 	mlx->data = mlx_get_data_addr(mlx->img, &bpp, &sl, &endian);
 	mlx->bpp = bpp;
 	mlx->sl = sl;
 	mlx->endian = endian;
-}
-
-
+}		
 
 /*
-** mlx & params initializations & main program (hook_exposure) launch
+** rooms, maxname, maxlinks, min.x, max.x, smin.y, max.y
+** ex: 6 7 3 -4 8 -1 5
 */
 
-int		main(void)
+void	parse_first_line(char parameters[7][11], t_ants *ants)
 {
-	t_mlx   mlx;
-	t_ants  ants;
-	char	parameters[7][11];
 	char	*s;
 	t_xy	i;
 
-	//mlx = NULL;
-	/*
-	if (size.gflag)
-		ft_printf("%d %d %d %d %d %d %d\n", size.rooms, size.maxname, \
-
-		6 7 3 -4 8 -1 5
-		
-
-		size.maxlinks, size.min.x, size.max.x, size.min.y, size.max.y);*/
-	
-	ft_bzero(parameters, sizeof(parameters));
 	get_next_line(0, &s);
 	i.y = 0;
 	while (*s && *s != '\n')
@@ -61,33 +52,43 @@ int		main(void)
 			parameters[i.y][++i.x] = *s++;
 		++i.y;
 	}
-	ants.rooms_nb = ft_atoi(parameters[0]);
-	ants.maxname = ft_atoi(parameters[1]);
-	ants.maxlinks = ft_atoi(parameters[2]);
-	ants.min.x = ft_atoi(parameters[3]);
-	ants.max.x = ft_atoi(parameters[4]);
-	ants.min.y = ft_atoi(parameters[5]);
-	ants.max.y = ft_atoi(parameters[6]);
-	ants.dim.y = ants.max.y - ants.min.y + 1;
-	ants.dim.x = ants.max.x - ants.min.x + 1;
-	mlx.mlx = mlx_init();
-	mlx.win = mlx_new_window(mlx.mlx, WIDTH, HEIGHT, "see ants");
+	ants->rooms_nb = ft_atoi(parameters[0]);
+	ants->maxname = ft_atoi(parameters[1]);
+	ants->maxlinks = ft_atoi(parameters[2]);
+	ants->min.x = ft_atoi(parameters[3]);
+	ants->max.x = ft_atoi(parameters[4]);
+	ants->min.y = ft_atoi(parameters[5]);
+	ants->max.y = ft_atoi(parameters[6]);
+	ants->dim.y = ants->max.y - ants->min.y + 1;
+	ants->dim.x = ants->max.x - ants->min.x + 1;
+}
+
+/*
+** get first line, init mlx, init controls, init rooms
+*/
+
+int		main(void)
+{
+	t_mlx   mlx;
+	t_ants  ants;
+	char	parameters[7][11];
+	
+	ft_bzero(parameters, sizeof(parameters));
+	parse_first_line(parameters, &ants);
 	ft_init_img(&mlx);
-	ft_putchar('y');
+	ants.mlx = &mlx;
 	reset_controls(&ants.param);
-	ft_putchar('u');
 	init_rooms(&ants);
-	ft_putchar('v');
 	return (0);
 }
 
 void	parse_rooms(t_ants *ants, int map[ants->dim.y][ants->dim.x]
 {
-	int		room_index;
-	char	*line;
-	t_xy	i;
+//	int		room_index;
+//	char	*line;
+//	t_xy	i;
 
-	room_index = -1;
+/*	room_index = -1;
 	while (++room_index < ants->rooms_nb)
 	{
 		get_next_line(0, &line);
@@ -98,7 +99,10 @@ void	parse_rooms(t_ants *ants, int map[ants->dim.y][ants->dim.x]
 			parse_room_pos(&line, map);
 
 		}
-	}
+	}*/
+	map[3][4] = 
+
+
 }
 
 
@@ -119,6 +123,7 @@ void	init_rooms(t_ants *ants)
 	ft_bzero(rooms, sizeof(rooms));
 	ft_putchar('r');
 	ants->map_pointer = map;
+	ants->rooms_pointer = rooms;
 //	rooms[0].pos = (t_xy) {.y = 5, .x = 4};
 //	rooms[0].type = 1;
 //	rooms[1].pos = (t_xy) {.y = 5, .x = 4};
@@ -140,8 +145,6 @@ void	init_rooms(t_ants *ants)
 
 void	hook_exposure(t_ants *ants)
 {
-    
-	ft_putchar('a');
 	mlx_hook(ants->mlx->win, KEYPRESS, KEYPRESSMASK, hook, ants);
 	mlx_hook(ants->mlx->win, KEYRELEASE, KEYRELEASEMASK, hook_move, ants);
 	mlx_loop_hook(ants->mlx->mlx, draw_ants, ants);
@@ -155,7 +158,6 @@ void	hook_exposure(t_ants *ants)
 
 int		draw_ants(t_ants *ants)
 {
-	ft_putchar('b');
 	mlx_destroy_image(ants->mlx->mlx, ants->mlx->img);
 	ants->mlx->img = mlx_new_image(ants->mlx->mlx, WIDTH, HEIGHT);
 	draw_rooms(ants);
@@ -170,22 +172,19 @@ int		draw_ants(t_ants *ants)
 void	draw_rooms(ANTS)
 {
 	int     (*map)[ants->dim.y][ants->dim.x];
+	t_rooms	rooms[ants->rooms_nb];
+	int		i;
 
-	ft_putchar('c');
+	rooms = ants->rooms_pointer;
 	map = ants->map_pointer;
-	t_xy	i;
 	ants->room_dim.y = (int)(ants->param.scaling * (double)HEIGHT / ((double)ants->dim.y + 3)); 
 	ants->room_dim.x = (int)(ants->param.scaling * (double)WIDTH / ((double)ants->dim.x + 3));
 	ants->room_size = ants->room_dim.y < ants->room_dim.x ? ants->room_dim.y : ants->room_dim.x;
 	ft_putnbr(ants->room_dim.x);
-	i.y = 0;
-	while (i.y < ants->room_dim.y)
+	i = -1;
+	while(++i < ants->rooms_nb)
 	{
-		i.x = 0;
-		while (i.x < ants->room_dim.x)
-		{
-			if (map[i.y][i.x])
-				draw_room(i, ants);
+		draw_room(roomi, ants);
 			++i.x;
 		}
 		++i.y;

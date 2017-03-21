@@ -80,6 +80,7 @@ typedef struct		s_ants
 	t_xy			room_dim;
 	int				room_size;
 	void			*map_pointer;
+	void			*rooms_pointer;
 }					t_ants;
 
 typedef struct		s_rooms
