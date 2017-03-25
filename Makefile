@@ -6,7 +6,7 @@
 #    By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/11 00:03:30 by agrumbac          #+#    #+#              #
-#    Updated: 2017/03/11 06:04:11 by agrumbac         ###   ########.fr        #
+#    Updated: 2017/03/20 13:56:08 by agrumbac         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ NAME = lem-in
 
 SEE_NAME = see-ants
 
-SRC = lem_in.c
+SRC = lem_in.c lem_in_checker.c lem_in_colony.c lem_in_worker.c \
+lem_in_solver.c lem_in_pathfinder.c
 
 SEE_SRC = lem_in_viewer.c
 
@@ -26,9 +27,9 @@ DEP = lem_in.h libft/includes/libft.h libft/includes/ft_printf.h
 
 CC = gcc
 
-OBJ = $(addprefix ${OBJDIR}/, $(SEE_SRC:.c=.o))
+OBJ = $(addprefix ${OBJDIR}/, $(SRC:.c=.o))
 
-SEE_OBJ = $(addprefix ${OBJDIR}/, $(SRC:.c=.o))
+SEE_OBJ = $(addprefix ${OBJDIR}/, $(SEE_SRC:.c=.o))
 
 MLX = minilibx_macos/
 
@@ -82,25 +83,25 @@ fclean: clean
 	@/bin/rm -f ${SEE_NAME}
 
 test:
-	@${CC} -I./libft/includes/ -fsanitize=address -Llibft/ -lft -I. -o ${NAME} \
-	$(addprefix srcs/, ${SRC})
+	@${CC} -g -I./libft/includes/ -fsanitize=address -Llibft/ -lft \
+	-I. -o ${NAME} $(addprefix srcs/, ${SRC})
 
 ant:
 	@echo ${W}
-	@echo "             ,"
-	@echo "    _,-'\\   /|   .    .    /\`."
-	@echo "_,-'     \\_/_|_  |\   |\`. /   \`._,--===--.__"
-	@echo "^      _/\"/  \" \ : \__|_ /.  ,'   :.  :. .  \`-._"
-	@echo "     "${WR}"//"${W}" ^   "${WR}"/7"${W}" t'\"\"    \"\`-._/ ,'\   :   :  :  . \`."
-	@echo "     "${WR}"Y"${W}"      "${WR}"L/"${W}" )\         ]],'   \  :   :  :   :  \`."
-	@echo "     |        /  \`.n_n_n,','\_    \ ;   ;  ;   ;   _>"
-	@echo "     |__    ,'     |  \\\`-'    \`-.__\_______.==---'"
-	@echo "     //  \`\"\"\\      |   \\            \\"
-	@echo "    \|     |/      /    \            \\"
-	@echo "	          /     |             \`."
-	@echo "	         /      |               ^"
-	@echo "	        ^       |"
-	@echo "                        ^"
+	@echo "              ,"
+	@echo "     _,-'\\   /|   .    .    /\`."
+	@echo " _,-'     \\_/_|_  |\   |\`. /   \`._,--===--.__"
+	@echo "^       _/\"/  \" \ : \__|_ /.  ,'   :.  :. .  \`-._"
+	@echo "      "${WR}"//"${W}"  ^ "${WR}"/7"${W}"  t'\"\"    \"\`-._/ ,'\   :   :  :  . \`."
+	@echo "      "${WR}"Y"${W}"     "${WR}"L/"${W}"  )\         ]],'   \  :   :  :   :  \`."
+	@echo "      |        /  \`.n_n_n,','\_    \ ;   ;  ;   ;   _>"
+	@echo "      |__    ,'     |  \\\`-'    \`-.__\_______.==---'"
+	@echo "      //  \`\"\"\\      |   \\            \\"
+	@echo "     \|     |/      /    \            \\"
+	@echo "	           /     |             \`."
+	@echo "	          /      |               ^"
+	@echo "	         ^       |"
+	@echo "                         ^"
 	@echo ${X}
 
 re: fclean all
