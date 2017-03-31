@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:31:15 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/22 23:27:32 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/31 16:32:30 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <sys/types.h>
 # include <sys/uio.h>
 # include <unistd.h>
+# include <limits.h>
 
 # define MAX(a, b) (a > b ? a : b)
 # define MIN(a, b) (a < b ? a : b)
@@ -49,7 +50,7 @@ typedef struct		s_rooms
 	char			*roomname;
 	int				*links;
 	int				type;
-	int				ants;
+	int				depth;
 }					t_rooms;
 
 void				errors(const int err, const char *name);
@@ -64,9 +65,8 @@ int					lem_start_end(char *par, void *rooms, void *names, \
 int					lem_find_name(char *big, void *names, int len, \
 					const t_lemsize *size);
 void				lem_smart_ant(void *rooms, t_lemsize *size);
+void				lem_pathfinder(void *rooms, const t_lemsize *size);
 int					lem_start(void *rooms, const t_lemsize *size);
 int					lem_end(void *rooms, const t_lemsize *size);
-void				lem_pathfinder(const int maxflux, void *rooms, \
-					const t_lemsize *size);
 
 #endif

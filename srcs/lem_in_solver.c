@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/20 03:49:36 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/31 10:43:03 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/31 11:06:48 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,5 @@ void			lem_smart_ant(void *rooms, t_lemsize *size)
 	while ((*room)[lem_end(rooms, size)].links[maxflux] != -1)
 		maxflux++;
 	size->maxflux = MIN(maxflux, i);
-	lem_pathfinder(maxflux, rooms, size);
+	lem_pathfinder(rooms, size);
 }
