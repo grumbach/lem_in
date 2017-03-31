@@ -1,0 +1,9 @@
+2
+##start
+live 4 4
+##end
+dead 6 7
+dead-live
+
+
+#Segmentation fault: 11

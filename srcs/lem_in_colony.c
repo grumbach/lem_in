@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/11 14:01:56 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/20 10:29:15 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/22 16:05:03 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ static void		link_all_that(void *rooms, void *names, void *links, \
 	}
 }
 
-void			lem_set_colony(t_array *parse, const t_lemsize *size)
+void			lem_set_colony(t_array *parse, t_lemsize *size)
 {
 	t_rooms		rooms[size->rooms + 1];
 	char		names[size->rooms + 1][size->maxname + 1];

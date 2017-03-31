@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:31:15 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/20 13:57:15 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/03/22 23:27:32 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,14 @@ typedef struct		s_xy
 
 typedef struct		s_lemsize
 {
+	int				maxflux;
 	int				ants;
 	int				rooms;
 	int				maxname;
 	int				maxlinks;
+	int				gflag;
 	t_xy			max;
 	t_xy			min;
-	int				gflag;
 }					t_lemsize;
 
 typedef struct		s_rooms
@@ -54,7 +55,7 @@ typedef struct		s_rooms
 void				errors(const int err, const char *name);
 int					lem_check(const char *line, t_lemsize *size, \
 					int *ant_room_lnk);
-void				lem_set_colony(t_array *parse, const t_lemsize *size);
+void				lem_set_colony(t_array *parse, t_lemsize *size);
 int					lem_initialize_em(void *links, char **par, \
 					const t_lemsize *size);
 char				*lem_check_link(char *par);
@@ -62,8 +63,10 @@ int					lem_start_end(char *par, void *rooms, void *names, \
 					const t_lemsize *size);
 int					lem_find_name(char *big, void *names, int len, \
 					const t_lemsize *size);
-void				lem_smart_ant(void *rooms, const t_lemsize *size);
-void				lem_pathfinder(const int maxflux, const void *rooms, \
+void				lem_smart_ant(void *rooms, t_lemsize *size);
+int					lem_start(void *rooms, const t_lemsize *size);
+int					lem_end(void *rooms, const t_lemsize *size);
+void				lem_pathfinder(const int maxflux, void *rooms, \
 					const t_lemsize *size);
 
 #endif
