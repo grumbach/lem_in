@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:30:27 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/20 05:03:09 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/04/03 14:17:09 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ int			main(int ac, char **av)
 	if (!(parse = ft_arraynew(1)))
 		errors(0, 0);
 	parse_em(parse, &size);
+	size.par = LEM;
 	lem_set_colony(parse, &size);
-	ft_printf("%s", LEM);
 	ft_arraydel(&parse);
 	return (0);
 }

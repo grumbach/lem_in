@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/20 13:49:16 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/03 11:24:36 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/04/03 17:48:18 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	find_path(t_path *path, const int where, const int pathlen)
 	return (minlen);
 }
 
-void		lem_pathfinder(void *rooms, const t_lemsize *size)
+int			lem_pathfinder(void *rooms, const t_lemsize *size)
 {
 	int		pathlists[size->maxflux][size->rooms + 1];
 	t_path	path;
@@ -72,13 +72,8 @@ void		lem_pathfinder(void *rooms, const t_lemsize *size)
 	path.pathlists = pathlists;
 	path.size = size;
 	pathlen = find_path(&path, lem_start(rooms, size), 0);
-
-	t_rooms (*room)[size->rooms + 1] = rooms;
-	for (int i = 0; i < size->rooms; i++)
-		ft_printf("==%s[%d]\n", (*room)[i].roomname, (*room)[i].depth);
-	ft_printf("Pathlen = %d\n", pathlen);
-	ft_printf("\n");
-	for (int i = 0; i <= pathlen; i++)
-		ft_printf("%s[%d]->", (*room)[pathlists[0][i]].roomname, pathlists[0][i]);
-	ft_printf("\n\n");
+	if (pathlen == INT_MAX)
+		return (0);
+	lem_print_answ((t_xy){pathlen, 1}, pathlists, rooms, size);
+	return (1);
 }

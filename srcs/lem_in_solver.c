@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/20 03:49:36 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/31 11:06:48 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/04/03 18:12:47 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int				lem_end(void *rooms, const t_lemsize *size)
 	return (i);
 }
 
-void			lem_smart_ant(void *rooms, t_lemsize *size)
+int				lem_smart_ant(void *rooms, t_lemsize *size)
 {
 	int			maxflux;
 	int			i;
@@ -73,5 +73,58 @@ void			lem_smart_ant(void *rooms, t_lemsize *size)
 	while ((*room)[lem_end(rooms, size)].links[maxflux] != -1)
 		maxflux++;
 	size->maxflux = MIN(maxflux, i);
-	lem_pathfinder(rooms, size);
+	return (lem_pathfinder(rooms, size));
+}
+
+void			lem_print_answ(const t_xy pathlen, void *pathlists, \
+					void *rooms, const t_lemsize *size)
+{
+	t_rooms		(*room)[size->rooms + 1];
+	int			(*pathlist)[size->maxflux][size->rooms + 1];
+	// t_xy		pa;
+	// t_xy		old;
+	int			ants;
+	// int			i;
+
+	pathlist = pathlists;
+	room = rooms;
+	ants = size->ants;
+	ft_printf("%s\n", size->par);
+
+	//shortest path
+	for (int i = 0; i <= pathlen.x; i++)
+		ft_printf("%s[%d]->", (*room)[(*pathlist)[0][i]].roomname, \
+			(*pathlist)[0][i]);
+	ft_printf("\n");
+	//
+	//
+	//
+	// while (ants)
+	// {
+	// 	i = 0;
+	// 	pa.x = -1;
+	// 	while (++pa.x < pathlen.x && (i = -1) && (pa.y = -1))
+	// 	{
+	// 		// while (pp)//move old ants
+	// 		// 	if (ants % pa.y)
+	// 		// 	{
+	// 		// 		ft_printf("L%d-%s", i, (*room)[(*pathlist)[pa.y][pa.x]]);
+	// 		// 		--ants;
+	// 		// 	}
+	// 		while (++pa.y < pathlen.y && ++i)//move new ants
+	// 			if (ants % pa.y)
+	// 			{
+	// 				ft_printf("L%d-%s", i, (*room)[(*pathlist)[pa.y][pa.x]]);
+	// 				--ants;
+	// 			}
+	// 	}
+	// }
+	// for (int i = 0; i < size->rooms; i++)
+	// 	ft_printf("==%s[%d]\n", (*room)[i].roomname, (*room)[i].depth);
+	// ft_printf("Pathlen = %d\n", pathlen);
+	// ft_printf("\n");
+	// for (int i = 0; i <= pathlen.y; i++)
+	// 	ft_printf("%s[%d]->", (*room)[(*pathlist)[0][i]].roomname, \
+	// 		(*pathlist)[0][i]);
+	// ft_printf("\n");
 }

@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:31:15 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/03 08:47:51 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/04/03 17:15:18 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct		s_xy
 
 typedef struct		s_lemsize
 {
+	char			*par;
 	int				maxflux;
 	int				ants;
 	int				rooms;
@@ -51,6 +52,7 @@ typedef struct		s_rooms
 	int				*links;
 	int				type;
 	int				depth;
+	int				ants;
 }					t_rooms;
 
 typedef struct		s_path
@@ -71,9 +73,11 @@ int					lem_start_end(char *par, void *rooms, void *names, \
 					const t_lemsize *size);
 int					lem_find_name(char *big, void *names, int len, \
 					const t_lemsize *size);
-void				lem_smart_ant(void *rooms, t_lemsize *size);
-void				lem_pathfinder(void *rooms, const t_lemsize *size);
+int					lem_smart_ant(void *rooms, t_lemsize *size);
+int					lem_pathfinder(void *rooms, const t_lemsize *size);
 int					lem_start(void *rooms, const t_lemsize *size);
 int					lem_end(void *rooms, const t_lemsize *size);
+void				lem_print_answ(const t_xy pathlen, void *pathlists, \
+					void *rooms, const t_lemsize *size);
 
 #endif
