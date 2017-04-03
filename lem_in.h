@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:31:15 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/31 16:32:30 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/04/03 08:47:51 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,13 @@ typedef struct		s_rooms
 	int				type;
 	int				depth;
 }					t_rooms;
+
+typedef struct		s_path
+{
+	void			*rooms;
+	void			*pathlists;
+	const t_lemsize	*size;
+}					t_path;
 
 void				errors(const int err, const char *name);
 int					lem_check(const char *line, t_lemsize *size, \

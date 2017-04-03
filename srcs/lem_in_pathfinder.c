@@ -6,14 +6,14 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/20 13:49:16 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/03 07:54:00 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/04/03 11:24:36 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-static void	set_depths(const t_lemsize *size, void *rooms, \
-				const int depth, const int where)
+static void	set_depths(const int depth, const int where, void *rooms, \
+				const t_lemsize *size)
 {
 	t_rooms (*room)[size->rooms + 1];
 	int		i;
@@ -27,19 +27,58 @@ static void	set_depths(const t_lemsize *size, void *rooms, \
 	{
 		if ((*room)[(*room)[where].links[i]].depth > depth + 1 || \
 			!(*room)[(*room)[where].links[i]].depth)
-			set_depths(size, rooms, depth + 1, (*room)[where].links[i]);
+			set_depths(depth + 1, (*room)[where].links[i], rooms, size);
 		++i;
 	}
 }
 
+static int	find_path(t_path *path, const int where, const int pathlen)
+{
+	int		(*pathlist)[path->size->maxflux][path->size->rooms + 1];
+	t_rooms (*room)[path->size->rooms + 1];
+	int		min;
+	int		minlen;
+	int		i;
+
+	pathlist = path->pathlists;
+	room = path->rooms;
+	min = INT_MAX;
+	minlen = INT_MAX;
+	(*pathlist)[0][pathlen] = where;
+	if (where == lem_end(path->rooms, path->size))
+		return (pathlen);
+	i = -1;
+	while ((*room)[where].links[++i] != -1)
+		if ((*room)[(*room)[where].links[i]].depth)
+			min = MIN(min, (*room)[(*room)[where].links[i]].depth);
+	i = -1;
+	while ((*room)[where].links[++i] != -1)
+		if ((*room)[(*room)[where].links[i]].depth == min)
+			minlen = MIN(minlen, \
+				find_path(path, (*room)[where].links[i], pathlen + 1));
+	return (minlen);
+}
+
 void		lem_pathfinder(void *rooms, const t_lemsize *size)
 {
-	int		pathlist[size->maxflux][size->rooms + 1];
+	int		pathlists[size->maxflux][size->rooms + 1];
+	t_path	path;
+	int		pathlen;
 
-	set_depths(size, rooms, 0, lem_end(rooms, size));
-	(void)pathlist;
+	ft_bzero(&path, sizeof(path));
+	ft_bzero(&pathlists, sizeof(pathlists));
+	set_depths(0, lem_end(rooms, size), rooms, size);
+	path.rooms = rooms;
+	path.pathlists = pathlists;
+	path.size = size;
+	pathlen = find_path(&path, lem_start(rooms, size), 0);
 
 	t_rooms (*room)[size->rooms + 1] = rooms;
 	for (int i = 0; i < size->rooms; i++)
-		ft_printf("[%s](%d)\n", (*room)[i].roomname, (*room)[i].depth);
+		ft_printf("==%s[%d]\n", (*room)[i].roomname, (*room)[i].depth);
+	ft_printf("Pathlen = %d\n", pathlen);
+	ft_printf("\n");
+	for (int i = 0; i <= pathlen; i++)
+		ft_printf("%s[%d]->", (*room)[pathlists[0][i]].roomname, pathlists[0][i]);
+	ft_printf("\n\n");
 }
