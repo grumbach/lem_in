@@ -1,18 +1,18 @@
 ##start
 126
+tototi 6 95
 ##start
 toto -3 -5
 hemhem 4 4
 tom 5 5
-titi 6 95
 tata 4 -13
 ##end
 monvier 67 5
 toto-tata
 toto-hemhem
 hemhem-tata
-toto-titi
-titi-tom
+toto-tototi
+tototi-tom
 tom-monvier
 tata-monvier
 zut-miam

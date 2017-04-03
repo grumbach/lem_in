@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 22:02:04 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/31 10:41:58 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/04/03 08:16:32 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,18 @@ int			lem_find_name(char *par, void *names, int len, \
 {
 	char		(*name)[size->rooms + 1][size->maxname + 1];
 	int			i;
+	char		tmp;
 
 	name = names;
 	i = -1;
+	tmp = par[len];
+	par[len] = 0;
 	while (++i < size->rooms)
-		if (ft_strnstr(par, (*name)[i], len))
+		if (!ft_strncmp(par, (*name)[i], len + 1))
+		{
+			par[len] = tmp;
 			return (i);
+		}
+	par[len] = tmp;
 	return (-1);
 }
