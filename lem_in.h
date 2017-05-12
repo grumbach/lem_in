@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:31:15 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/20 13:57:15 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/12 13:47:54 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 # define LEM_IN_H
 
 # include "libft.h"
+# include "ft_printf.h"
 # include <errno.h>
 # include <sys/types.h>
 # include <sys/uio.h>
 # include <unistd.h>
+# include <limits.h>
 
 # define MAX(a, b) (a > b ? a : b)
 # define MIN(a, b) (a < b ? a : b)
@@ -34,13 +36,15 @@ typedef struct		s_xy
 
 typedef struct		s_lemsize
 {
+	char			*par;
+	int				maxflux;
 	int				ants;
 	int				rooms;
 	int				maxname;
 	int				maxlinks;
+	int				gflag;
 	t_xy			max;
 	t_xy			min;
-	int				gflag;
 }					t_lemsize;
 
 typedef struct		s_rooms
@@ -48,13 +52,22 @@ typedef struct		s_rooms
 	char			*roomname;
 	int				*links;
 	int				type;
+	int				depth;
 	int				ants;
 }					t_rooms;
+
+typedef struct		s_path
+{
+	void			*rooms;
+	void			*pathlists;
+	void			*pathlens;
+	const t_lemsize	*size;
+}					t_path;
 
 void				errors(const int err, const char *name);
 int					lem_check(const char *line, t_lemsize *size, \
 					int *ant_room_lnk);
-void				lem_set_colony(t_array *parse, const t_lemsize *size);
+void				lem_set_colony(t_array *parse, t_lemsize *size);
 int					lem_initialize_em(void *links, char **par, \
 					const t_lemsize *size);
 char				*lem_check_link(char *par);
@@ -62,8 +75,11 @@ int					lem_start_end(char *par, void *rooms, void *names, \
 					const t_lemsize *size);
 int					lem_find_name(char *big, void *names, int len, \
 					const t_lemsize *size);
-void				lem_smart_ant(void *rooms, const t_lemsize *size);
-void				lem_pathfinder(const int maxflux, const void *rooms, \
-					const t_lemsize *size);
+int					lem_smart_ant(void *rooms, t_lemsize *size);
+int					lem_pathfinder(void *rooms, const t_lemsize *size);
+int					lem_start(void *rooms, const t_lemsize *size);
+int					lem_end(void *rooms, const t_lemsize *size);
+void				lem_print_answ(const void *pathlens, \
+					const void *pathlists, void *rooms, const t_lemsize *size);
 
 #endif

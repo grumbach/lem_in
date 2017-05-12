@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 22:02:04 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/03/20 13:41:47 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/04/03 08:16:32 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	lem_get_end(char *par, void *rooms, void *names, \
 	}
 	if (see[i] != ' ' || !see[i])
 		return (-1);
-	(*room)[lem_find_name(tmpname, names, i, size)].type = END;
+	(*room)[lem_find_name(tmpname, names, i, size)].type += END;
 	return (1);
 }
 
@@ -60,7 +60,7 @@ int			lem_start_end(char *par, void *rooms, void *names, \
 	}
 	if (see[i] != ' ' || !see[i])
 		return (0);
-	(*room)[lem_find_name(tmpname, names, i, size)].type = START;
+	(*room)[lem_find_name(tmpname, names, i, size)].type += START;
 	return (lem_get_end(par, rooms, names, size));
 }
 
@@ -111,11 +111,18 @@ int			lem_find_name(char *par, void *names, int len, \
 {
 	char		(*name)[size->rooms + 1][size->maxname + 1];
 	int			i;
+	char		tmp;
 
 	name = names;
 	i = -1;
+	tmp = par[len];
+	par[len] = 0;
 	while (++i < size->rooms)
-		if (ft_strnstr(par, (*name)[i], len))
+		if (!ft_strncmp(par, (*name)[i], len + 1))
+		{
+			par[len] = tmp;
 			return (i);
+		}
+	par[len] = tmp;
 	return (-1);
 }
