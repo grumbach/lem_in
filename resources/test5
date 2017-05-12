@@ -2,6 +2,7 @@
 ##start
 live 4 4
 ##end
+toto 5 5
 dead 6 7
 dead-live
 

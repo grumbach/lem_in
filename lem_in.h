@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:31:15 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/04/03 17:15:18 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/12 10:45:22 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct		s_path
 {
 	void			*rooms;
 	void			*pathlists;
+	void			*pathlens;
 	const t_lemsize	*size;
 }					t_path;
 
@@ -77,7 +78,7 @@ int					lem_smart_ant(void *rooms, t_lemsize *size);
 int					lem_pathfinder(void *rooms, const t_lemsize *size);
 int					lem_start(void *rooms, const t_lemsize *size);
 int					lem_end(void *rooms, const t_lemsize *size);
-void				lem_print_answ(const t_xy pathlen, void *pathlists, \
-					void *rooms, const t_lemsize *size);
+void				lem_print_answ(const void *pathlens, \
+					const void *pathlists, void *rooms, const t_lemsize *size);
 
 #endif
