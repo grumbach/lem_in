@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 09:31:15 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/12 10:45:22 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/12 13:47:54 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LEM_IN_H
 
 # include "libft.h"
+# include "ft_printf.h"
 # include <errno.h>
 # include <sys/types.h>
 # include <sys/uio.h>
