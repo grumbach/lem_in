@@ -6,7 +6,7 @@
 /*   By: agrumbac <agrumbac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/20 13:49:16 by agrumbac          #+#    #+#             */
-/*   Updated: 2017/05/12 12:10:30 by agrumbac         ###   ########.fr       */
+/*   Updated: 2017/05/13 15:49:13 by agrumbac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 static void	set_depths(const int depth, const int where, void *rooms, \
 				const t_lemsize *size)
 {
-	t_rooms (*room)[size->rooms + 1];
 	int		i;
 
+	t_rooms(*room)[size->rooms + 1];
 	room = rooms;
 	i = 0;
 	if (where == lem_start(rooms, size))
@@ -35,11 +35,11 @@ static void	set_depths(const int depth, const int where, void *rooms, \
 static int	find_paths(t_path *path, const int where, const t_xy pathref)
 {
 	int		(*pathlist)[path->size->maxflux][path->size->rooms + 1];
-	t_rooms (*room)[path->size->rooms + 1];
 	int		min;
 	int		minlen;
 	int		i;
 
+	t_rooms(*room)[path->size->rooms + 1];
 	pathlist = path->pathlists;
 	room = path->rooms;
 	min = INT_MAX;
